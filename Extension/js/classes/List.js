@@ -1,13 +1,38 @@
 class List {
 
+	// on list title change - updateCardLimit, countCards
+	// on card text change - countCards
+	// on add/remove card - countCards
+
     constructor (list) {
         this.list = list;
     }
 
-    updateCardLimit (limit) {
-        // or should this read it from the title
+    updateCardLimit () {
+
+		var limit = this.getLimitFromTitle();
+
         this.list.dataset.listLimit = limit;
+
+		var roundel = this.list.querySelector('.roundel');
+
+		if (roundel) {
+			if (limit == null) {
+				roundel.remove();
+			} else {
+				roundel.text = limit;
+			}
+		}
+
     }
+
+	// TODO something like detag header should be done, use existing code
+
+	getLimitFromTitle () {
+		var title = this.list.querySelector('.list-title');
+		// TODO regex shit
+		return limit;
+	}
 
     countCards () {
 
@@ -19,28 +44,43 @@ class List {
             cardCount += cards[i].dataset.points || 0;
         }
 
-        if (cardCount > listLimit) {
-            // put notice on
-            // say this is over the limit - what to do in this situation?
+		this.updateStatusNotice(cardCount, listLimit);
+
+		if (GLOBAL.RefuseNewCards) {
+			this.updateRefuseCardStatus(cardCount, listLimit);
+		}
+
+    }
+
+    updateStatusNotice (cardCount, listLimit) {
+		if (cardCount > listLimit) {
+            this.updateNotice('This has too many on it'); // TODO better message
         } else if (cardCount < listLimit) {
-            // take notice off
-            // allow new cards if that's a setting
+			let notice = this.list.querySelector('.notice');
+            if (notice) {
+            	notice.remove();
+            }
         } else {
-            // put the notice on
-            // refuse new ones if that's a setting
+			this.updateNotice('This is full'); // TODO better message
         }
     }
 
-    styleCardCountRoundel() {
+	updateNotice (message) {
+		var notice = this.list.querySelector('.notice');
+		if (!notice) {
+			notice = document.createElement('div');
+			notice.classList.add('notice');
+			this.list.appendChild(notice);
+		}
+		notice.text = message;
+	}
 
-    }
-
-    updateStatusNotice() {
-
-    }
-
-    updateRefuseCardStatus() {
-
+    updateRefuseCardStatus (cardCount, listLimit) {
+		if (cardCount >= listLimit) {
+			// TODO refuse them
+		} else {
+			// TODO let them in
+		}
     }
 
 }
