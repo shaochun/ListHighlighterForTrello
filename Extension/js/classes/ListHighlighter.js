@@ -12,8 +12,10 @@ class ListHighlighter {
 
 		if (header && header.textContent) {
 
+			console.log('wee wee');
+
 			let tagList = 'to ?do|today|doing|trash|done|normal|low|high|ignore';
-			let r = new RegExp(`(?:\\s*(?:\{(${tagList})\}|#(?:${tagList})))\\s*`, 'i');
+			let r = new RegExp(`(?:\\s*(?:\{(${tagList})\}|#(?:${tagList})|(\[[0-9]+\])))\\s*`, 'i');
 			let matches = header.textContent.match(r);
 			let textarea = header.nextElementSibling;
 			let title = header.textContent;
@@ -195,6 +197,12 @@ class ListHighlighter {
 						textarea.addEventListener('blur', ListHighlighter.detagHeaderTimeout);
 						ListHighlighter.detagHeader(header);
 					}
+				}
+
+				if (GLOBAL.EnableWIP) {
+					let listWorkPoints = new List(list);
+					listWorkPoints.updateCardLimit();
+					listWorkPoints.countCards();
 				}
 
 			}

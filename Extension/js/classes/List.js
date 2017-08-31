@@ -6,6 +6,7 @@ class List {
 
     constructor (list) {
         this.list = list;
+        console.log(list);
     }
 
     updateCardLimit () {
@@ -31,6 +32,7 @@ class List {
 	getLimitFromTitle () {
 		var title = this.list.querySelector('.list-title');
 		// TODO regex shit
+        var limit = 0; // TODO this is fake obvs
 		return limit;
 	}
 

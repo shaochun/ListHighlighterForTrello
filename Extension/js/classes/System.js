@@ -109,6 +109,11 @@ class System {
 	// list
 	static checkForNewCards(mutationRecords) {
 		if (mutationRecords[0] && mutationRecords[0] instanceof MutationRecord) {
+			var listCards = mutationRecords[0].target;
+			if (GLOBAL.EnableWIP) {
+				var listWorkPoints = new List(listCards.closest('.list'));
+				listWorkPoints.countCards();
+			}
 			var newCard = mutationRecords[0].addedNodes[0];
 			if (newCard && newCard.classList.contains('list-card')) {
 				// for new cards and dragged cards
@@ -116,7 +121,7 @@ class System {
 				watch('listCardTitle', newCard.querySelector('.list-card-title'));
 			} else {
 				// for dragging between lists
-				let card = mutationRecords[0].target.querySelectorAll('.list-card');
+				let card = listCards.querySelectorAll('.list-card');
 				Card.processCards(card);
 			}
 		}

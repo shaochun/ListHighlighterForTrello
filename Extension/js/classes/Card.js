@@ -45,6 +45,10 @@ class Card {
 			this.unmakeRule();
 		}
 
+		if (GLOBAL.EnableWIP) {
+			let listWorkPoints = new List(this.card.closest('.list'));
+		}
+
 	}
 
 	isListCard () {

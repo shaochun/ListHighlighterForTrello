@@ -40,6 +40,7 @@
 				"js/classes/Color.js",
 				"js/classes/ListHighlighter.js",
 				"js/classes/TrelloPage.js",
+				"js/classes/List.js",
 				"js/classes/Card.js",
 				"js/classes/Options.js",
 				"options/js/classes/DoingColors.js",
