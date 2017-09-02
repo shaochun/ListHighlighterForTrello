@@ -1,54 +1,74 @@
 class List {
 
+	// NOTE
 	// on list title change - updateCardLimit, countCards
 	// on card text change - countCards
 	// on add/remove card - countCards
 
     constructor (list) {
+		// NOTE list is .list
         this.list = list;
     }
 
     updateCardLimit () {
 
-		var limit = this.getLimitFromTitle();
+		var limit = this.getLimitFromTitle(),
+			roundel = this.list.querySelector('.bmko_list-limit-roundel');
 
-        this.list.dataset.listLimit = limit;
+		if (limit) {
 
-		var roundel = this.list.querySelector('.roundel');
+	        this.list.dataset.listLimit = limit;
 
-		if (roundel) {
-			if (limit == null) {
-				roundel.remove();
-			} else {
-				roundel.text = limit;
+			if (!roundel) {
+				roundel = document.createElement('span');
+				roundel.classList.add('bmko_list-limit-roundel');
+				let listHeader = this.list.querySelector('.list-header'),
+					numCards = listHeader.querySelector('.list-header-num-cards');
+				listHeader.insertBefore(roundel, numCards);
 			}
+
+			roundel.textContent = limit;
+
+		} else if (roundel) {
+			roundel.remove();
 		}
 
     }
 
-	// TODO something like detag header should be done, use existing code
-
 	getLimitFromTitle () {
-		var title = this.list.querySelector('.list-title');
-		// TODO regex shit
-        var limit = 0; // TODO this is fake obvs
-		return limit;
+		var title = this.list.querySelector('.list-header-name-assist').textContent,
+			matches = title.match(/\[([0-9]+)\]/);
+
+		if (matches && matches[1]) {
+			return matches[1];
+		}
 	}
 
     countCards () {
 
-        var cards = this.list.querySelectorAll('.list-card:not(bmko_header-card-applied)'),
-            cardCount = cards.length,
-            listLimit = this.list.dataset.listLimit;
+		var listLimit = this.list.dataset.listLimit;
 
-        for (let i = cards.length-1; i>-1; i--) {
-            cardCount += cards[i].dataset.points || 0;
-        }
+		if (listLimit) {
 
-		this.updateStatusNotice(cardCount, listLimit);
+			var cards = this.list.querySelectorAll('.list-card:not(.bmko_header-card-applied)'),
+	            cardCount = cards.length;
 
-		if (GLOBAL.RefuseNewCards) {
-			this.updateRefuseCardStatus(cardCount, listLimit);
+			console.log(cards);
+			console.log(cardCount);
+
+			listLimit = parseInt(listLimit);
+
+			console.log(cardCount, listLimit);
+
+	        for (let i = cards.length-1; i>-1; i--) {
+	            cardCount += cards[i].dataset.points || 0;
+	        }
+
+			this.updateStatusNotice(cardCount, listLimit);
+
+			if (GLOBAL.RefuseNewCards) {
+				this.updateRefuseCardStatus(cardCount, listLimit);
+			}
 		}
 
     }
@@ -69,11 +89,13 @@ class List {
 	updateNotice (message) {
 		var notice = this.list.querySelector('.notice');
 		if (!notice) {
+			let listCards = this.list.querySelector('.list-cards'),
+				firstCard = listCards.querySelector('.list-card');
 			notice = document.createElement('div');
 			notice.classList.add('notice');
-			this.list.appendChild(notice);
+			listCards.insertBefore(notice, firstCard);
 		}
-		notice.text = message;
+		notice.textContent = message;
 	}
 
     updateRefuseCardStatus (cardCount, listLimit) {

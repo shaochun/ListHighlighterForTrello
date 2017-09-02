@@ -12,8 +12,11 @@ class ListHighlighter {
 
 		if (header && header.textContent) {
 
-			let tagList = 'to ?do|today|doing|trash|done|normal|low|high|ignore';
-			let matches = header.textContent.match(new RegExp(`#(?:${tagList})|(?:\[[0-9]+\])`, 'gi'));
+			let tagList = 'to ?do\\b|today\\b|doing\\b|trash\\b|done\\b|normal\\b|low\\b|high\\b|ignore\\b';
+			let r = (GLOBAL.EnableWIP)
+				? new RegExp(`#(?:${tagList})|(?:\[[0-9]+\])`, 'gi')
+				: new RegExp(`#(?:${tagList})`, 'gi')
+			let matches = header.textContent.match(r);
 			let textarea = header.nextElementSibling;
 			let title = header.textContent;
 
@@ -34,7 +37,7 @@ class ListHighlighter {
 						}
 
 						if (hashTagDone == false && match.startsWith('#')) {
-							title = title.replace(new RegExp(`\\s*${match}\\s*`), ' ').trim();
+							title = title.replace(new RegExp(`\\s*${match}\\b\\s*`), ' ').trim();
 							hashTagDone = true;
 						}
 
