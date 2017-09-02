@@ -17,7 +17,7 @@ class List {
 
 		if (limit) {
 
-	        this.list.dataset.listLimit = limit;
+	        this.list.dataset.bmkoListLimit = limit;
 
 			if (!roundel) {
 				roundel = document.createElement('span');
@@ -46,7 +46,7 @@ class List {
 
     countCards () {
 
-		var listLimit = this.list.dataset.listLimit;
+		var listLimit = this.list.dataset.bmkoListLimit;
 
 		if (listLimit) {
 
@@ -61,7 +61,7 @@ class List {
 			console.log(cardCount, listLimit);
 
 	        for (let i = cards.length-1; i>-1; i--) {
-	            cardCount += cards[i].dataset.points || 0;
+	            cardCount += cards[i].dataset.bmkoPoints || 0;
 	        }
 
 			this.updateStatusNotice(cardCount, listLimit);
