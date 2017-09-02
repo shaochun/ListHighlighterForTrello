@@ -12,18 +12,34 @@ class ListHighlighter {
 
 		if (header && header.textContent) {
 
-			console.log('wee wee');
-
 			let tagList = 'to ?do|today|doing|trash|done|normal|low|high|ignore';
-			let r = new RegExp(`(?:\\s*(?:\{(${tagList})\}|#(?:${tagList})|(\[[0-9]+\])))\\s*`, 'i');
-			let matches = header.textContent.match(r);
+			let matches = header.textContent.match(new RegExp(`#(?:${tagList})|(?:\[[0-9]+\])`, 'gi'));
 			let textarea = header.nextElementSibling;
 			let title = header.textContent;
 
 			if (textarea && textarea.tagName == 'TEXTAREA') {
-				let newValue;
+
 				if (matches && typeof matches[0] == 'string') {
-					title = header.textContent.replace(matches[0], ' ').trim();
+
+					let countTagDone = false,
+						hashTagDone = false;
+
+					for (let i=0, x=matches.length; i<x; i++) {
+						let match = matches[i];
+
+						if (countTagDone == false && match.startsWith('[')) {
+							match = match.replace(/(\[|\])/g, '\\$1');
+							title = title.replace(new RegExp(`\\s*${match}\\s*`), ' ').trim();
+							countTagDone = true;
+						}
+
+						if (hashTagDone == false && match.startsWith('#')) {
+							title = title.replace(new RegExp(`\\s*${match}\\s*`), ' ').trim();
+							hashTagDone = true;
+						}
+
+					}
+
 					textarea.value = title;
 				} else {
 					title = textarea.value;

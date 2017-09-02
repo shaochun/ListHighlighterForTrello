@@ -6,7 +6,6 @@ class List {
 
     constructor (list) {
         this.list = list;
-        console.log(list);
     }
 
     updateCardLimit () {
