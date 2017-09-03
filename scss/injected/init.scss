@@ -5,44 +5,45 @@
 
 body.body-color-blind-mode-enabled .bmko_high-list {
 	background-image: linear-gradient(
-		to bottom right,
-		rgba(255,255,255,.5) 25%,
-		transparent 25%,
-		transparent 50%,
-		rgba(255,255,255,.5) 50%,
-		rgba(255,255,255,.5) 75%,
-		transparent 75%,
-		transparent
+	to bottom right,
+	rgba(255,255,255,.5) 25%,
+	transparent 25%,
+	transparent 50%,
+	rgba(255,255,255,.5) 50%,
+	rgba(255,255,255,.5) 75%,
+	transparent 75%,
+	transparent
 	);
 	background-size: 2pc 2pc;
 
 	.open-card-composer {
 		opacity: 1;
-	}
+		}
 
 	.mod-list-name,
 	.open-card-composer {
 		text-shadow: 0 0 6px black;
+		}
 	}
-}
 
 .bmko_list-highlighter-applied .list {
 	color: var(--list-color);
 	background: var(--list-bg);
+
 	transition: background .25s;
 
 	.u-fancy-scrollbar::-webkit-scrollbar-track-piece {
 		background: var(--scrollbar-track-color);
-	}
+		}
 	.u-fancy-scrollbar::-webkit-scrollbar-thumb {
 		background: var(--scrollbar-thumb-color);
-	}
+		}
 
 	.list-header,
 	.list-cards,
 	.open-card-composer {
 		opacity: var(--opacity);
-	}
+		}
 
 	// ellipsis button, add card button
 
@@ -51,11 +52,11 @@ body.body-color-blind-mode-enabled .bmko_high-list {
 		color: var(--list-button-color);
 		.icon-sm {
 			color: var(--list-button-color);
-		}
+			}
 		&:hover {
 			background: var(--list-button-bg);
+			}
 		}
-	}
 
 	// list header
 
@@ -65,13 +66,13 @@ body.body-color-blind-mode-enabled .bmko_high-list {
 		color: var(--header-color);
 
 		-webkit-text-fill-color: var(--header-color);
-	}
+		}
 
 	.mod-list-name.is-editing {
 		color: var(--editing-color);
 
 		-webkit-text-fill-color: var(--editing-color);
-	}
+		}
 
 	// Cards
 
@@ -79,7 +80,7 @@ body.body-color-blind-mode-enabled .bmko_high-list {
 		&:not(.placeholder) {
 			&.is-stickered .list-card-details {
 				background: transparent;
-			}
+				}
 
 			&.active-card {
 				background: var(--active-card-bg);
@@ -87,8 +88,8 @@ body.body-color-blind-mode-enabled .bmko_high-list {
 				a,
 				textarea {
 					color: var(--active-card-color);
+					}
 				}
-			}
 
 			&:not(.active-card) {
 				color: var(--card-color);
@@ -96,19 +97,19 @@ body.body-color-blind-mode-enabled .bmko_high-list {
 				border-bottom-color: var(--card-border-bottom-color);
 				.list-card-title {
 					color: var(--card-color);
-				}
+					}
 				a,
 				textarea {
 					color: var(--card-color);
+					}
 				}
 			}
-		}
 
 		&.placeholder {
 			background: var(--list-button-bg);
 			border-bottom-color: transparent;
+			}
 		}
-	}
 
 	// Pencil button
 
@@ -118,8 +119,8 @@ body.body-color-blind-mode-enabled .bmko_high-list {
 		&:hover {
 			color: var(--card-color);
 			background: var(--card-button-bg);
+			}
 		}
-	}
 
 	// card footer buttons
 
@@ -133,16 +134,16 @@ body.body-color-blind-mode-enabled .bmko_high-list {
 				opacity: 1;
 
 				background: var(--card-button-bg);
+				}
 			}
 		}
-	}
 
 	// List type-specific styles
 
 	&.bmko_high-list .member {
 		color: var(--header-color);
 		background: transparent;
-	}
+		}
 
 	&.bmko_high-list .member-initials {
 		opacity: .9;
@@ -150,30 +151,38 @@ body.body-color-blind-mode-enabled .bmko_high-list {
 
 		border: 1px solid var(--header-color);
 		border-radius: 3px;
-	}
+		}
 
 	&.bmko_high-list .active-card .list-card-operation {
 		color: var(--pencil-button-color);
 		&:hover {
 			background: var(--pencil-button-bg);
+			}
 		}
-	}
 
 	&.bmko_ignore-list,
 	&.bmko_trash-list {
 		@include ignore();
-	}
+		}
 
 	&.bmko_trash-list .list-cards {
 		text-decoration: line-through;
 		.confirm {
 			opacity: .5;
+			}
 		}
-	}
 
 	&.bmko_low-list {
 		@include low();
+		}
 	}
-}
+
+// .bmko_list-limit-roundel {
+// text-align: center;
+// color: white;
+// background: black;
+// border-radius: 20px;
+// padding: 0 5px;
+// }
 
 @import 'headercards';

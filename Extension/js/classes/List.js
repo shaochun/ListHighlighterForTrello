@@ -27,7 +27,7 @@ class List {
 				listHeader.insertBefore(roundel, numCards);
 			}
 
-			roundel.textContent = limit;
+			roundel.textContent = `Limit: ${limit}`;
 
 		} else if (roundel) {
 			roundel.remove();
