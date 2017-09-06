@@ -179,4 +179,13 @@ body.body-color-blind-mode-enabled .bmko_high-list {
 // padding: 0 5px;
 // }
 
+.bmko_list-limit-notice {
+
+	background: rgba(0, 0, 0, 0.28);
+
+	p:empty {
+		display: none;
+	}
+}
+
 @import "headercards";

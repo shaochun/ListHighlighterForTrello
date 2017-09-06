@@ -1,3 +1,5 @@
+// FIXME This is badly named
+
 class List {
 
 	// NOTE
@@ -57,7 +59,8 @@ class List {
 
 	updateStatusNotice (cardCount, listLimit) {
 
-		var notice = this.list.querySelector('.bmko_list-limit-notice');
+		var notice = this.list.querySelector('.bmko_list-limit-notice'),
+			message;
 
 		if (!notice) {
 			let p1 = document.createElement('p'),
@@ -75,16 +78,15 @@ class List {
 
 		if (cardCount > listLimit) {
 			// TODO better message
-			notice.firstElementChild.nextElementSibling.innerHTML = 'This has too many on it';
+			message = 'This has too many on it';
 		} else if (cardCount < listLimit) {
-			let notice = this.list.querySelector('.notice');
-			if (notice) {
-				notice.remove();
-			}
+			message = '';
 		} else {
 			// TODO better message
-			notice.firstElementChild.nextElementSibling.innerHTML = 'This is full';
+			message = 'This is full';
 		}
+
+		notice.firstElementChild.nextElementSibling.innerHTML = message;
 	}
 
 	updateRefuseCardStatus (cardCount, listLimit) {
