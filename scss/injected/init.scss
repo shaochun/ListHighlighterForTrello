@@ -177,14 +177,9 @@ body.body-color-blind-mode-enabled .bmko_high-list {
 	}
 }
 
-.bmko_list-limit-roundel {
-	position: absolute;
-	top: 23px;
-	right: 10px;
-
-	&:empty {
-		display: none;
-	}
+.open-card-composer[data-bmko-list-limit]::after {
+	content: attr(data-bmko-card-count) " out of " attr(data-bmko-list-limit);
+	float: right;
 }
 
 .bmko_list-limit-notice {

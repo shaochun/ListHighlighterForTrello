@@ -15,23 +15,16 @@ class List {
 	updateCardLimit () {
 
 		var limit = this.getLimitFromTitle(),
-			addCard = this.list.querySelector('.'),
-			roundel = this.list.querySelector('.bmko_list-limit-roundel');
-
-		if (!roundel) {
-			roundel = document.createElement('span');
-			roundel.classList.add('bmko_list-limit-roundel');
-			listHeader.insertBefore(roundel, numCards);
-		}
+			addCardButton = this.list.querySelector('.open-card-composer');
 
 		if (limit) {
 			this.list.classList.add('bmko_list-has-limit');
 			this.list.dataset.bmkoListLimit = limit;
-			roundel.textContent = limit;
+			addCardButton.dataset.bmkoListLimit = limit;
 		} else {
 			this.list.classList.remove('bmko_list-has-limit');
 			this.list.dataset.bmkoListLimit = 'none';
-			roundel.textContent = '';
+			addCardButton.removeAttribute('data-bmko-list-limit');
 		}
 
 	}
@@ -51,14 +44,17 @@ class List {
 
 		if (listLimit && listLimit !== 'none') {
 
-			var cards = this.list.querySelectorAll('.list-card:not(.bmko_header-card-applied)'),
-				cardCount = cards.length;
+			let cards = this.list.querySelectorAll('.list-card:not(.bmko_header-card-applied)'),
+				cardCount = cards.length,
+				addCardButton = this.list.querySelector('.open-card-composer');
 
 			listLimit = parseInt(listLimit);
 
 			for (let i = cards.length-1; i>-1; i--) {
 				cardCount += cards[i].dataset.bmkoPoints || 0;
 			}
+
+			addCardButton.dataset.bmkoCardCount = cardCount
 
 			this.updateStatusNotice(cardCount, listLimit);
 
