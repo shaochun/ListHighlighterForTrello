@@ -68,7 +68,7 @@ class List {
 	updateStatusNotice (cardCount, listLimit) {
 
 		var notice = this.list.querySelector('.bmko_list-limit-notice'),
-			message;
+			className, message;
 
 		if (!notice) {
 			notice = document.createElement('div');
@@ -78,14 +78,21 @@ class List {
 			this.list.insertBefore(notice, this.list.querySelector('.list-cards'));
 		}
 
+		this.list.classList.remove('bmko_list-full', 'bmko_list-over');
+
 		if (cardCount > listLimit) {
-			// TODO better message
-			message = 'This has too many on it';
+			message = 'This list is overfull!';
+			className = 'bmko_list-over';
 		} else if (cardCount < listLimit) {
 			message = '';
+			className = false;
 		} else {
-			// TODO better message
-			message = 'This is full';
+			message = 'This list is full';
+			className = 'bmko_list-full';
+		}
+
+		if (className) {
+			this.list.classList.add(className);
 		}
 
 		notice.nextElementSibling.innerHTML = message;
