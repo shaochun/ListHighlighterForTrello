@@ -54,7 +54,7 @@ class List {
 				cardCount += cards[i].dataset.bmkoPoints || 0;
 			}
 
-			addCardButton.dataset.bmkoCardCount = cardCount
+			addCardButton.dataset.bmkoCardCount = cardCount;
 
 			this.updateStatusNotice(cardCount, listLimit);
 

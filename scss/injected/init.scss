@@ -180,6 +180,7 @@ body.body-color-blind-mode-enabled .bmko_high-list {
 .open-card-composer[data-bmko-list-limit]::after {
 	content: attr(data-bmko-card-count) " out of " attr(data-bmko-list-limit);
 	float: right;
+	opacity: 0.5;
 }
 
 .bmko_list-limit-notice {
