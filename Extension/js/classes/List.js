@@ -14,12 +14,24 @@ class List {
 
 	updateCardLimit () {
 
-		var limit = this.getLimitFromTitle();
+		var limit = this.getLimitFromTitle(),
+			addCard = this.list.querySelector('.'),
+			roundel = this.list.querySelector('.bmko_list-limit-roundel');
+
+		if (!roundel) {
+			roundel = document.createElement('span');
+			roundel.classList.add('bmko_list-limit-roundel');
+			listHeader.insertBefore(roundel, numCards);
+		}
 
 		if (limit) {
+			this.list.classList.add('bmko_list-has-limit');
 			this.list.dataset.bmkoListLimit = limit;
+			roundel.textContent = limit;
 		} else {
+			this.list.classList.remove('bmko_list-has-limit');
 			this.list.dataset.bmkoListLimit = 'none';
+			roundel.textContent = '';
 		}
 
 	}
@@ -63,18 +75,12 @@ class List {
 			message;
 
 		if (!notice) {
-			let p1 = document.createElement('p'),
-				p2 = document.createElement('p');
 			notice = document.createElement('div');
-			notice.appendChild(p1);
-			notice.appendChild(p2);
 			notice.classList.add('bmko_list-limit-notice');
 			let listHeader = this.list.querySelector('.list-header'),
 				numCards = listHeader.querySelector('.list-header-num-cards');
-			listHeader.insertBefore(notice, numCards);
+			this.list.insertBefore(notice, this.list.querySelector('.list-cards'));
 		}
-
-		notice.firstElementChild.textContent = `Limit: ${listLimit}`;
 
 		if (cardCount > listLimit) {
 			// TODO better message
@@ -86,7 +92,7 @@ class List {
 			message = 'This is full';
 		}
 
-		notice.firstElementChild.nextElementSibling.innerHTML = message;
+		notice.nextElementSibling.innerHTML = message;
 	}
 
 	updateRefuseCardStatus (cardCount, listLimit) {
