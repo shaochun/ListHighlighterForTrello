@@ -95,7 +95,7 @@ class List {
 			this.list.classList.add(className);
 		}
 
-		notice.nextElementSibling.innerHTML = message;
+		notice.innerHTML = message;
 	}
 
 	updateRefuseCardStatus (cardCount, listLimit) {
