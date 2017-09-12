@@ -4,16 +4,7 @@
 @import "mixins";
 
 body.body-color-blind-mode-enabled .bmko_high-list {
-	background-image: linear-gradient(
-		to bottom right,
-		rgba(255,255,255,0.5) 25%,
-		transparent 25%,
-		transparent 50%,
-		rgba(255,255,255,0.5) 50%,
-		rgba(255,255,255,0.5) 75%,
-		transparent 75%,
-		transparent
-	);
+	background-image: linear-gradient(to bottom right, rgba(255,255,255,0.5) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.5) 75%, transparent 75%, transparent);
 	background-size: 2pc 2pc;
 
 	.open-card-composer {
@@ -177,24 +168,23 @@ body.body-color-blind-mode-enabled .bmko_high-list {
 	}
 }
 
-.open-card-composer[data-bmko-list-limit]::after {
-	opacity: 0.5;
-	content: attr(data-bmko-card-count) " out of " attr(data-bmko-list-limit);
-	float: right;
-}
-
 .bmko_list-limit-notice {
-	width: 258px;
-	box-sizing: border-box;
-	margin: 0 8px 8px;
-	padding: 6px;
+	width: 100%;
+	margin: -6px 0 8px 0;
 
-	background: rgba(0, 0, 0, 0.28);
+	font-size: 17px;
+	font-variant: all-small-caps;
+	text-align: center;
 	border-radius: 4px;
 
 	&:empty {
 		display: none;
 	}
+}
+
+.bmko_list-over .open-card-composer::before {
+	content: "⚠️";
+	margin-right: 10px;
 }
 
 @import "headercards";

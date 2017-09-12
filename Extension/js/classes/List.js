@@ -14,17 +14,14 @@ class List {
 
 	updateCardLimit () {
 
-		var limit = this.getLimitFromTitle(),
-			addCardButton = this.list.querySelector('.open-card-composer');
+		var limit = this.getLimitFromTitle();
 
 		if (limit) {
 			this.list.classList.add('bmko_list-has-limit');
 			this.list.dataset.bmkoListLimit = limit;
-			addCardButton.dataset.bmkoListLimit = limit;
 		} else {
 			this.list.classList.remove('bmko_list-has-limit');
 			this.list.dataset.bmkoListLimit = 'none';
-			addCardButton.removeAttribute('data-bmko-list-limit');
 		}
 
 	}
@@ -45,16 +42,13 @@ class List {
 		if (listLimit && listLimit !== 'none') {
 
 			let cards = this.list.querySelectorAll('.list-card:not(.bmko_header-card-applied)'),
-				cardCount = cards.length,
-				addCardButton = this.list.querySelector('.open-card-composer');
+				cardCount = cards.length;
 
 			listLimit = parseInt(listLimit);
 
 			for (let i = cards.length-1; i>-1; i--) {
 				cardCount += cards[i].dataset.bmkoPoints || 0;
 			}
-
-			addCardButton.dataset.bmkoCardCount = cardCount;
 
 			this.updateStatusNotice(cardCount, listLimit);
 
@@ -81,14 +75,13 @@ class List {
 		this.list.classList.remove('bmko_list-full', 'bmko_list-over');
 
 		if (cardCount > listLimit) {
-			message = 'This list is overfull!';
+			message = `⚠️ ${cardCount - listLimit} over`;
 			className = 'bmko_list-over';
-		} else if (cardCount < listLimit) {
-			message = '';
-			className = false;
-		} else {
-			message = 'This list is full';
-			className = 'bmko_list-full';
+		} else if (cardCount <= listLimit) {
+			let spaces = listLimit - cardCount,
+				s = (spaces == 1) ? '' : 's';
+			message = `${spaces} space${s}`;
+			className = 'bmko_list-normal';
 		}
 
 		if (className) {
