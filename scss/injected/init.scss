@@ -173,8 +173,9 @@ body.body-color-blind-mode-enabled .bmko_high-list {
 	margin: 0 0 10px;
 
 	font-size: 12px;
-	text-transform: uppercase;
 	text-align: center;
+	text-transform: uppercase;
+	color: var(--list-button-color);
 	border-radius: 4px;
 
 	&:empty {
@@ -184,6 +185,11 @@ body.body-color-blind-mode-enabled .bmko_high-list {
 	.bmko_list-over & {
 		font-size: 16px;
 		font-weight: bold;
+		color: var(--list-color);
+
+		animation-name: bounceIn;
+		animation-duration: 0.75s;
+		animation-fill-mode: both;
 		&::before {
 			content: "⚠️";
 			margin-right: 10px;
@@ -195,5 +201,44 @@ body.body-color-blind-mode-enabled .bmko_high-list {
 	content: "⚠️";
 	margin-right: 10px;
 }
+
+@keyframes bounceIn {
+	from,
+	20%,
+	40%,
+	60%,
+	80%,
+	to {
+		animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+	}
+
+	0% {
+		opacity: 0;
+		transform: scale3d(0.3, 0.3, 0.3);
+	}
+
+	20% {
+		transform: scale3d(1.1, 1.1, 1.1);
+	}
+
+	40% {
+		transform: scale3d(0.9, 0.9, 0.9);
+	}
+
+	60% {
+		opacity: 1;
+		transform: scale3d(1.03, 1.03, 1.03);
+	}
+
+	80% {
+		transform: scale3d(0.97, 0.97, 0.97);
+	}
+
+	to {
+		opacity: 1;
+		transform: scale3d(1, 1, 1);
+	}
+}
+
 
 @import "headercards";
