@@ -75,7 +75,7 @@ class List {
 		this.list.classList.remove('bmko_list-full', 'bmko_list-over');
 
 		if (cardCount > listLimit) {
-			message = `⚠️ ${cardCount - listLimit} over`;
+			message = `${cardCount - listLimit} over`;
 			className = 'bmko_list-over';
 		} else if (cardCount <= listLimit) {
 			let spaces = listLimit - cardCount,
