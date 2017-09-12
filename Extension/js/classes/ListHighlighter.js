@@ -123,7 +123,13 @@ class ListHighlighter {
 
 	static getListTypeFromHeader (header) {
 
-		let listTitle = header.textContent.toLowerCase().trim();
+		let listTitle = header.textContent.toLowerCase();
+
+		if (GLOBAL.EnableWIP && !GLOBAL.IgnorePointsOnCards) {
+			listTitle = listTitle.replace(/\s*\[[0-9]+\]\s*/, ' ');
+		}
+
+		listTitle = listTitle.trim();
 
 		if (
 			GLOBAL.HighlightTags && (listTitle.includes('{low}') || /#low(?:\s|$)/.test(listTitle))
