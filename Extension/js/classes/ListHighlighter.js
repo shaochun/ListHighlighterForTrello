@@ -224,12 +224,6 @@ class ListHighlighter {
 					}
 				}
 
-				if (GLOBAL.EnableWIP) {
-					let listWorkPoints = new List(list);
-					listWorkPoints.updateCardLimit();
-					listWorkPoints.countCards();
-				}
-
 			}
 
 		}
@@ -243,6 +237,17 @@ class ListHighlighter {
 			document.body.classList.add('bmko_do-not-dim-lists');
 		}
 
+	}
+
+	static toggleWIP () {
+		if (GLOBAL.EnableWIP) {
+			var lists = document.querySelectorAll('.list');
+			for (var i = 0, len = lists.length; i < len; i++) {
+				let listWorkPoints = new List(lists[i]);
+				listWorkPoints.updateCardLimit();
+				listWorkPoints.countCards();
+			}
+		}
 	}
 
 	static dehighlight(override) {
