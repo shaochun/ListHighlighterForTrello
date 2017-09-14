@@ -62,7 +62,7 @@ class List {
 	updateStatusNotice (cardCount, listLimit) {
 
 		var notice = this.list.querySelector('.bmko_list-limit-notice'),
-			className, message;
+			className, after, span = document.createElement('span');
 
 		if (!notice) {
 			notice = document.createElement('div');
@@ -72,23 +72,23 @@ class List {
 			this.list.insertBefore(notice, this.list.querySelector('.list-cards'));
 		}
 
-		this.list.classList.remove('bmko_list-full', 'bmko_list-over');
+		notice.textContent = `${cardCount} / ${listLimit}`;
 
 		if (cardCount > listLimit) {
-			message = `${cardCount - listLimit} over`;
+			after = `${cardCount - listLimit} over`;
 			className = 'bmko_list-over';
 		} else if (cardCount <= listLimit) {
 			let spaces = listLimit - cardCount,
 				s = (spaces == 1) ? '' : 's';
-			message = `${spaces} space${s}`;
+			after = `${spaces} space${s}`;
 			className = 'bmko_list-normal';
 		}
 
-		if (className) {
-			this.list.classList.add(className);
-		}
+		span.textContent = after;
+		notice.appendChild(span);
 
-		notice.innerHTML = message;
+		this.list.classList.remove('bmko_list-full', 'bmko_list-over');
+		this.list.classList.add(className);
 	}
 
 	updateRefuseCardStatus (cardCount, listLimit) {
