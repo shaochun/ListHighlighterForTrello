@@ -41,7 +41,7 @@ class List {
 
 		if (listLimit && listLimit !== 'none') {
 
-			let cards = this.list.querySelectorAll('.list-card:not(.bmko_header-card-applied)'),
+			let cards = this.list.querySelectorAll('a.list-card:not(.bmko_header-card-applied)'),
 				cardCount = cards.length;
 
 			listLimit = parseInt(listLimit);
@@ -78,9 +78,9 @@ class List {
 			after = `${cardCount - listLimit} over`;
 			className = 'bmko_list-over';
 		} else if (cardCount <= listLimit) {
-			let spaces = listLimit - cardCount,
-				s = (spaces == 1) ? '' : 's';
-			after = `${spaces} space${s}`;
+			// let spaces = listLimit - cardCount,
+			// 	s = (spaces == 1) ? '' : 's';
+			// after = `${spaces} space${s}`;
 			className = 'bmko_list-normal';
 		}
 

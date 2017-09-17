@@ -93,6 +93,7 @@ class System {
 		DoingColors.highPriColorStyles();
 		ListHighlighter.highlight();
 		System.headerCardsSetup();
+		ListHighlighter.toggleWIP();
 	}
 
 	// board
@@ -111,8 +112,9 @@ class System {
 	static checkForNewCards(mutationRecords) {
 		if (mutationRecords[0] && mutationRecords[0] instanceof MutationRecord) {
 			var listCards = mutationRecords[0].target;
-			if (GLOBAL.EnableWIP) {
+			if (GLOBAL.EnableWIP && listCards.parentNode) {
 				var listWorkPoints = new List(listCards.closest('.list'));
+				listWorkPoints.updateCardLimit();
 				listWorkPoints.countCards();
 			}
 			var newCard = mutationRecords[0].addedNodes[0];
