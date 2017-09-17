@@ -243,11 +243,11 @@ class ListHighlighter {
 		if (GLOBAL.EnableWIP) {
 			var lists = document.querySelectorAll('.list');
 			for (var i = 0, len = lists.length; i < len; i++) {
-				let listWorkPoints = new List(lists[i]);
-				listWorkPoints.updateCardLimit();
-				listWorkPoints.countCards();
+				let listWorkPoints = new ListWorkPoints(lists[i]);
+				listWorkPoints.update();
 			}
 		}
+		// TODO this needs to disable too
 	}
 
 	static dehighlight(override) {

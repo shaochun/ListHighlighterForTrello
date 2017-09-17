@@ -30,7 +30,14 @@ function getWatcher(key, targets) {
 
 		listTitle : {
 			targets : document.querySelectorAll('.list-header h2'),
-			observer : new MutationObserver(ListHighlighter.highlight),
+			observer : new MutationObserver(function (mutationRecords) {
+				var listTitle = mutationRecords[0].target;
+				ListHighlighter.highlight();
+				if (listTitle && listTitle.parentNode) {
+					let listWorkPoints = new ListWorkPoints(listTitle.closest('.list'));
+					listWorkPoints.update();
+				}
+			}),
 			options : {childList: true, subtree: false}
 		},
 

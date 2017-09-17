@@ -46,7 +46,7 @@ class Card {
 		}
 
 		if (GLOBAL.EnableWIP) {
-			let listWorkPoints = new List(this.card.closest('.list'));
+			let listWorkPoints = new ListWorkPoints(this.card.closest('.list'));
 		}
 
 	}

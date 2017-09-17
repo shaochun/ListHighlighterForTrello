@@ -1,29 +1,10 @@
 // FIXME This is badly named
 
-class List {
-
-	// NOTE
-	// on list title change - updateCardLimit, countCards
-	// on card text change - countCards
-	// on add/remove card - countCards
+class ListWorkPoints {
 
 	constructor (list) {
 		// NOTE list is .list
 		this.list = list;
-	}
-
-	updateCardLimit () {
-
-		var limit = this.getLimitFromTitle();
-
-		if (limit) {
-			this.list.classList.add('bmko_list-has-limit');
-			this.list.dataset.bmkoListLimit = limit;
-		} else {
-			this.list.classList.remove('bmko_list-has-limit');
-			this.list.dataset.bmkoListLimit = 'none';
-		}
-
 	}
 
 	getLimitFromTitle () {
@@ -35,11 +16,17 @@ class List {
 		}
 	}
 
-	countCards () {
+	update () {
 
-		var listLimit = this.list.dataset.bmkoListLimit;
+		var listLimit = this.getLimitFromTitle();
 
-		if (listLimit && listLimit !== 'none') {
+		if (listLimit) {
+			this.list.classList.add('bmko_list-has-limit');
+		} else {
+			this.list.classList.remove('bmko_list-has-limit');
+		}
+
+		if (listLimit && listLimit !== 0) {
 
 			let cards = this.list.querySelectorAll('a.list-card:not(.bmko_header-card-applied)'),
 				cardCount = cards.length;
@@ -55,8 +42,22 @@ class List {
 			if (GLOBAL.RefuseNewCards) {
 				this.updateRefuseCardStatus(cardCount, listLimit);
 			}
+
+		} else {
+
+			this.removeAccoutrements();
+
 		}
 
+	}
+
+	removeAccoutrements () {
+		var notice = this.list.querySelector('.bmko_list-limit-notice');
+		if (notice) {
+			notice.remove();
+		}
+		this.list.classList.remove('bmko_list-full', 'bmko_list-over', 'bmko_list-has-limit');
+		// i guess also unhide the [numbers] on cards
 	}
 
 	updateStatusNotice (cardCount, listLimit) {
