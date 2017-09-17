@@ -16,6 +16,17 @@ class ListWorkPoints {
 		}
 	}
 
+	static getCardPoints(card) {
+		var cardTitle = card.querySelector('.list-card-title');
+		if (cardTitle) {
+			let title = cardTitle.textContent || '',
+				matches = title.match(/\[([0-9]+)\]/);
+			if (matches && matches[1]) {
+				return matches[1];
+			}
+		}
+	}
+
 	update () {
 
 		var listLimit = this.getLimitFromTitle();
@@ -29,12 +40,17 @@ class ListWorkPoints {
 		if (listLimit && listLimit !== 0) {
 
 			let cards = this.list.querySelectorAll('a.list-card:not(.bmko_header-card-applied)'),
-				cardCount = cards.length;
+				cardCount = 0;
 
 			listLimit = parseInt(listLimit);
 
-			for (let i = cards.length-1; i>-1; i--) {
-				cardCount += cards[i].dataset.bmkoPoints || 0;
+			if (GLOBAL.IgnorePointsOnCards) {
+				cardCount = cards.length;
+			} else {
+				for (let i = cards.length-1; i>-1; i--) {
+					let cardPoints = parseInt(ListWorkPoints.getCardPoints(cards[i])) || 1;
+					cardCount += cardPoints;
+				}
 			}
 
 			this.updateStatusNotice(cardCount, listLimit);
