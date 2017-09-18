@@ -51,7 +51,7 @@ class ListWorkPoints {
 				}
 			}
 
-			this.updateStatusNotice(cardCount, listLimit);
+			this.updateCountAndLimit(cardCount, listLimit);
 
 			if (GLOBAL.RefuseNewCards) {
 				this.updateRefuseCardStatus(cardCount, listLimit);
@@ -74,7 +74,7 @@ class ListWorkPoints {
 		// i guess also unhide the [numbers] on cards
 	}
 
-	updateStatusNotice (cardCount, listLimit) {
+	updateCountAndLimit (cardCount, listLimit) {
 
 		var notice = this.list.querySelector('.bmko_list-limit-notice'),
 			className, after, span = document.createElement('span');
@@ -92,11 +92,13 @@ class ListWorkPoints {
 		if (cardCount > listLimit) {
 			after = `${cardCount - listLimit} over`;
 			className = 'bmko_list-over';
+			this.toggleRefuseCards(true);
 		} else if (cardCount <= listLimit) {
 			// let spaces = listLimit - cardCount,
 			// 	s = (spaces == 1) ? '' : 's';
 			// after = `${spaces} space${s}`;
 			className = 'bmko_list-normal';
+			this.toggleRefuseCards(false);
 		}
 
 		span.textContent = after;
@@ -104,6 +106,20 @@ class ListWorkPoints {
 
 		this.list.classList.remove('bmko_list-full', 'bmko_list-over');
 		this.list.classList.add(className);
+	}
+
+	toggleRefuseCards(toggle) {
+		if (GLOBAL.RefuseNewCards) {
+			var listCards = this.list.querySelector('.list-cards'),
+				addCardButton = this.list.querySelector('.open-card-composer');
+			if (toggle) {
+				listCards.classList.remove('js-sortable', 'ui-sortable');
+				addCardButton.classList.add('hide');
+			} else {
+				listCards.classList.add('js-sortable', 'ui-sortable');
+				addCardButton.classList.remove('hide');
+			}
+		}
 	}
 
 	updateRefuseCardStatus (cardCount, listLimit) {

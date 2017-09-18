@@ -262,6 +262,8 @@ class ListHighlighter {
 			} else {
 				listWorkPoints.removeAccoutrements();
 			}
+			// FIXME this is dirty and stupid
+			listWorkPoints.updateCountAndLimit();
 		}
 
 	}

@@ -90,8 +90,6 @@
 
 		<h2>More features</h2>
 
-
-
 		<div class="multiple-standard-options">
 
 			<div class="standard-options">
@@ -111,7 +109,6 @@
 					</li>
 				</ul>
 			</div>
-
 
 			<div class="standard-options">
 				<h3>Lists</h3>
