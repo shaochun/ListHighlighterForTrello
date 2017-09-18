@@ -2,8 +2,7 @@
 class ListWorkPoints {
 
 	constructor (list) {
-		// NOTE list is .list
-		this.list = list;
+		this.list = list; // NOTE this is .list
 	}
 
 	getLimitFromTitle () {
