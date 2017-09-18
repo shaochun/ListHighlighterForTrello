@@ -1,4 +1,3 @@
-// FIXME This is badly named
 
 class ListWorkPoints {
 

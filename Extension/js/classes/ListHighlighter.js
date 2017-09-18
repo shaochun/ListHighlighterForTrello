@@ -10,15 +10,27 @@ class ListHighlighter {
 
 	static detagHeader (header) {
 
-		if (header && header.textContent) {
+		let hideTags = (GLOBAL.HighlightTags && GLOBAL.HideHashtags);
+		let hideWipNumbers = (GLOBAL.EnableWIP);
+
+		if (header && header.textContent && (hideTags || hideWipNumbers)) {
 
 			let tagList = 'to ?do\\b|today\\b|doing\\b|trash\\b|done\\b|normal\\b|low\\b|high\\b|ignore\\b';
-			let r = (GLOBAL.EnableWIP)
-				? new RegExp(`#(?:${tagList})|(?:\[[0-9]+\])`, 'gi')
-				: new RegExp(`#(?:${tagList})`, 'gi')
-			let matches = header.textContent.match(r);
-			let textarea = header.nextElementSibling;
+
+			let r;
+
+			if (hideTags && hideWipNumbers) {
+				r = `#(?:${tagList})|(?:\[[0-9]+\])`;
+			} else if (!hideTags && hideWipNumbers) {
+				r = `(?:\[[0-9]+\])`;
+			} else if (hideTags && !hideWipNumbers) {
+				r = `#(?:${tagList})`;
+			}
+
+			let regex = new RegExp(r, 'gi');
 			let title = header.textContent;
+			let matches = title.match(regex);
+			let textarea = header.nextElementSibling;
 
 			if (textarea && textarea.tagName == 'TEXTAREA') {
 
@@ -43,10 +55,10 @@ class ListHighlighter {
 
 					}
 
-					textarea.value = title;
-				} else {
-					title = textarea.value;
 				}
+
+				textarea.value = title;
+
 			}
 
 			textarea.style.height = ListHighlighter.getNewHeight(textarea, title);
@@ -125,7 +137,7 @@ class ListHighlighter {
 
 		let listTitle = header.textContent.toLowerCase();
 
-		if (GLOBAL.EnableWIP && !GLOBAL.IgnorePointsOnCards) {
+		if (GLOBAL.EnableWIP) {
 			listTitle = listTitle.replace(/\s*\[[0-9]+\]\s*/, ' ');
 		}
 
@@ -240,14 +252,18 @@ class ListHighlighter {
 	}
 
 	static toggleWIP () {
-		if (GLOBAL.EnableWIP) {
-			var lists = document.querySelectorAll('.list');
-			for (var i = 0, len = lists.length; i < len; i++) {
-				let listWorkPoints = new ListWorkPoints(lists[i]);
+
+		var lists = document.querySelectorAll('.list');
+
+		for (var i = 0, len = lists.length; i < len; i++) {
+			let listWorkPoints = new ListWorkPoints(lists[i]);
+			if (GLOBAL.EnableWIP) {
 				listWorkPoints.update();
+			} else {
+				listWorkPoints.removeAccoutrements();
 			}
 		}
-		// TODO this needs to disable too
+
 	}
 
 	static dehighlight(override) {
