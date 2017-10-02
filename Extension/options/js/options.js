@@ -165,7 +165,7 @@ Options.load('options', function (options) {
 				targets: ['HighlightTitlesSwitcher', 'MatchTitleSubstringsSwitcher']
 			}
 		}
-	}
+	};
 
 	var optionControlInputs = document.querySelectorAll('.option-control');
 	for (let i = optionControlInputs.length-1; i>-1; i--) {
