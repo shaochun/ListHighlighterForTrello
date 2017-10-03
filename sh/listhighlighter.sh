@@ -2,7 +2,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
 source $DIR/../config/bash.sh;
 
 lhwatch () {
-	fswatch -0xvo "$listHighlighterDir" -e css/* | xargs -0 -n1 -I {} $DIR/watchhandler.sh {};
+	fswatch -0xvo "$listHighlighterDir" -e css/* -e options/index.html -e .git | xargs -0 -n1 -I {} $DIR/watchhandler.sh {};
 }
 
 lhrelease () {
