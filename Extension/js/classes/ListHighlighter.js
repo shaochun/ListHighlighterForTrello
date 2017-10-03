@@ -262,8 +262,12 @@ class ListHighlighter {
 			} else {
 				listWorkPoints.removeAccoutrements();
 			}
-			// FIXME this is dirty and stupid
-			listWorkPoints.updateCountAndLimit();
+			// FIXME this is dirty and stupid - needs cardCount and listLimit
+			// can't remember what this was supposed to be doing, but it causes a bug
+			// leaving the comments here till I put it back again later
+			// and see why I needed it after all
+			// so far, commenting it doesn't cause any problems
+			// listWorkPoints.updateCountAndLimit();
 		}
 
 	}

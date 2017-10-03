@@ -59,7 +59,9 @@ class ListWorkPoints {
 
 		} else {
 
-			this.removeAccoutrements();
+			setTimeout(function (self) {
+				self.removeAccoutrements();
+			}, 0, this);
 
 		}
 
