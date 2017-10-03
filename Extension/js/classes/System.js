@@ -113,8 +113,7 @@ class System {
 		if (mutationRecords[0] && mutationRecords[0] instanceof MutationRecord) {
 			var listCards = mutationRecords[0].target;
 			if (GLOBAL.EnableWIP && listCards.parentNode) {
-				var listWorkPoints = new ListWorkPoints(listCards.closest('.list'));
-				listWorkPoints.update();
+				ListWorkPoints.updateLists(listCards.closest('.list'));
 			}
 			var newCard = mutationRecords[0].addedNodes[0];
 			if (newCard && newCard.classList.contains('list-card')) {

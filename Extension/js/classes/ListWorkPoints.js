@@ -5,12 +5,11 @@ class ListWorkPoints {
 		this.list = list; // NOTE this is .list
 	}
 
-	getLimitFromTitle () {
-		var title = this.list.querySelector('.list-header-name-assist').textContent,
-			matches = title.match(/\[([0-9]+)\]/);
-
-		if (matches && matches[1]) {
-			return matches[1];
+	static updateLists (lists) {
+		lists = lists || document.querySelectorAll('.list');
+		for (let list of lists) {
+			let listWorkPoints = new ListWorkPoints(list);
+			listWorkPoints.update();
 		}
 	}
 
@@ -22,6 +21,15 @@ class ListWorkPoints {
 			if (matches && matches[1]) {
 				return matches[1];
 			}
+		}
+	}
+
+	getLimitFromTitle () {
+		var title = this.list.querySelector('.list-header-name-assist').textContent,
+			matches = title.match(/\[([0-9]+)\]/);
+
+		if (matches && matches[1]) {
+			return matches[1];
 		}
 	}
 
@@ -79,7 +87,7 @@ class ListWorkPoints {
 	updateCountAndLimit (cardCount, listLimit) {
 
 		var notice = this.list.querySelector('.bmko_list-limit-notice'),
-			className, after, span = document.createElement('span');
+			className, after, span = document.createElement('span'), toggleRefuse;
 
 		if (!notice) {
 			notice = document.createElement('div');
@@ -94,14 +102,19 @@ class ListWorkPoints {
 		if (cardCount > listLimit) {
 			after = `${cardCount - listLimit} over`;
 			className = 'bmko_list-over';
-			this.toggleRefuseCards(true);
-		} else if (cardCount <= listLimit) {
+			toggleRefuse = true;
+		} else if (cardCount == listLimit) {
+			toggleRefuse = true;
+			className = 'bmko_list-normal';
+		} else if (cardCount < listLimit) {
 			// let spaces = listLimit - cardCount,
 			// 	s = (spaces == 1) ? '' : 's';
 			// after = `${spaces} space${s}`;
 			className = 'bmko_list-normal';
-			this.toggleRefuseCards(false);
+			toggleRefuse = false;
 		}
+
+		this.toggleRefuseCards(toggleRefuse);
 
 		span.textContent = after;
 		notice.appendChild(span);
@@ -125,11 +138,17 @@ class ListWorkPoints {
 	}
 
 	updateRefuseCardStatus (cardCount, listLimit) {
+
+		var toggleRefuse;
+
 		if (cardCount >= listLimit) {
-			// TODO refuse them
-		} else {
-			// TODO let them in
+			toggleRefuse = true;
+		} else if (cardCount < listLimit) {
+			toggleRefuse = false;
 		}
+
+		this.toggleRefuseCards(toggleRefuse);
+
 	}
 
 }

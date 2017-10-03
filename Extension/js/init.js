@@ -26,6 +26,7 @@ chrome.runtime.onMessage.addListener (
 					ListHighlighter.highlight();
 					ListHighlighter.toggleHideHashtags (options.HideHashtags);
 					ListHighlighter.toggleWIP();
+					ListWorkPoints.updateLists();
 				});
 				break;
 		}
