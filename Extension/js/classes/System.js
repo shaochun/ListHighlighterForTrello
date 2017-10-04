@@ -118,12 +118,17 @@ class System {
 			var newCard = mutationRecords[0].addedNodes[0];
 			if (newCard && newCard.classList.contains('list-card')) {
 				// for new cards and dragged cards
+				// TODO here is the watcher
+				// if newCard is .placeholder
+				// ListWorkPoints.something(newCard);
+				// check the targeted list
+				// if refuse is switched on and the list is full, refuse this card
 				Card.processCards(newCard);
 				watch('listCardTitle', newCard.querySelector('.list-card-title'));
 			} else {
 				// for dragging between lists
-				let card = listCards.querySelectorAll('.list-card');
-				Card.processCards(card);
+				let cards = listCards.querySelectorAll('.list-card');
+				Card.processCards(cards);
 			}
 		}
 	}

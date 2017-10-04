@@ -162,6 +162,7 @@ class ListWorkPoints {
 		}
 	}
 
+	// HACK: this and the method above are very similar
 	updateRefuseCardStatus (cardCount, listLimit) {
 
 		var toggleRefuse;
@@ -175,5 +176,15 @@ class ListWorkPoints {
 		this.toggleRefuseCards(toggleRefuse);
 
 	}
+
+	// TODO: here are the things
+	// listen for a card hovering over - the shadow being created
+	// get the list
+	// count its points
+	// if the points are under, do the following:
+		// get the dragged card
+		// get the card points on that piece of shit
+		// if those points are bigger than the list points, toggle refuse cards ture
+		// when it leaves, undo the process
 
 }
