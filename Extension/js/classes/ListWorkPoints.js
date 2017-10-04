@@ -5,6 +5,27 @@ class ListWorkPoints {
 		this.list = list; // NOTE this is .list
 	}
 
+	static toggleWIP () {
+
+		var lists = document.querySelectorAll('.list');
+
+		for (var i = 0, len = lists.length; i < len; i++) {
+			let listWorkPoints = new ListWorkPoints(lists[i]);
+			if (GLOBAL.EnableWIP) {
+				listWorkPoints.update();
+			} else {
+				listWorkPoints.removeAccoutrements();
+			}
+			// FIXME this is dirty and stupid - needs cardCount and listLimit
+			// can't remember what this was supposed to be doing, but it causes a bug
+			// leaving the comments here till I put it back again later
+			// and see why I needed it after all
+			// so far, commenting it doesn't cause any problems
+			// listWorkPoints.updateCountAndLimit();
+		}
+
+	}
+
 	static updateLists (lists) {
 		if (!lists) {
 			lists = document.querySelectorAll('.list');

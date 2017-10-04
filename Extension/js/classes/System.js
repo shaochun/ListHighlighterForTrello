@@ -8,7 +8,7 @@ class System {
 				Options.load('colors', function(colors) {
 					DoingColors.highPriColorStyles();
 					keepTrying(ListHighlighter.highlight, 5, 700);
-					keepCounting(ListHighlighter.toggleWIP, '.list-card:not(.bmko_header-card-applied)');
+					keepCounting(ListWorkPoints.toggleWIP, '.list-card:not(.bmko_header-card-applied)');
 					watch('title');
 					watch('board');
 					watch('listTitle');
@@ -93,7 +93,7 @@ class System {
 		DoingColors.highPriColorStyles();
 		ListHighlighter.highlight();
 		System.headerCardsSetup();
-		ListHighlighter.toggleWIP();
+		ListWorkPoints.toggleWIP();
 	}
 
 	// board

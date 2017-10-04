@@ -77,7 +77,7 @@ class ListHighlighter {
 			textarea = arguments[0].target;
 		}
 
-		var textarea = this;
+		var textarea = this; // FIXME defined twice, code above seems completely irrelevant
 		var header = textarea.previousElementSibling;
 		window.setTimeout(function () {
 			ListHighlighter.detagHeader(header);
@@ -247,27 +247,6 @@ class ListHighlighter {
 			document.body.classList.remove('bmko_do-not-dim-lists');
 		} else {
 			document.body.classList.add('bmko_do-not-dim-lists');
-		}
-
-	}
-
-	static toggleWIP () {
-
-		var lists = document.querySelectorAll('.list');
-
-		for (var i = 0, len = lists.length; i < len; i++) {
-			let listWorkPoints = new ListWorkPoints(lists[i]);
-			if (GLOBAL.EnableWIP) {
-				listWorkPoints.update();
-			} else {
-				listWorkPoints.removeAccoutrements();
-			}
-			// FIXME this is dirty and stupid - needs cardCount and listLimit
-			// can't remember what this was supposed to be doing, but it causes a bug
-			// leaving the comments here till I put it back again later
-			// and see why I needed it after all
-			// so far, commenting it doesn't cause any problems
-			// listWorkPoints.updateCountAndLimit();
 		}
 
 	}
