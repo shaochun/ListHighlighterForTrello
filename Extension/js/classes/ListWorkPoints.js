@@ -6,7 +6,11 @@ class ListWorkPoints {
 	}
 
 	static updateLists (lists) {
-		lists = lists || document.querySelectorAll('.list');
+		if (!lists) {
+			lists = document.querySelectorAll('.list');
+		} else if (lists instanceof HTMLElement) {
+			lists = [lists];
+		}
 		for (let list of lists) {
 			let listWorkPoints = new ListWorkPoints(list);
 			listWorkPoints.update();
