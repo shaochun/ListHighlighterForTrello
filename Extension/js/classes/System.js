@@ -115,6 +115,13 @@ class System {
 			if (GLOBAL.EnableWIP && listCards.parentNode) {
 				ListWorkPoints.updateLists(listCards.closest('.list'));
 			}
+
+			console.log('ADDED',mutationRecords[0].addedNodes[0]);
+			console.log('REMOVED',mutationRecords[0].removedNodes[0]);
+			console.log('----FIN-----');
+
+			ListWorkPoints.placeholderListener(mutationRecords[0].removedNodes[0]);
+
 			var newCard = mutationRecords[0].addedNodes[0];
 			if (newCard && newCard.classList.contains('list-card')) {
 				// for new cards and dragged cards
@@ -123,6 +130,7 @@ class System {
 				// ListWorkPoints.something(newCard);
 				// check the targeted list
 				// if refuse is switched on and the list is full, refuse this card
+				console.log('shite');
 				Card.processCards(newCard);
 				watch('listCardTitle', newCard.querySelector('.list-card-title'));
 			} else {

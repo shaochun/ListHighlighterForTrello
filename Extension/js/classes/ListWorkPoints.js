@@ -70,19 +70,9 @@ class ListWorkPoints {
 
 		if (listLimit && listLimit !== 0) {
 
-			let cards = this.list.querySelectorAll('a.list-card:not(.bmko_header-card-applied)'),
-				cardCount = 0;
+			let cardCount = this.getCardCount();
 
 			listLimit = parseInt(listLimit);
-
-			if (GLOBAL.IgnorePointsOnCards) {
-				cardCount = cards.length;
-			} else {
-				for (let i = cards.length-1; i>-1; i--) {
-					let cardPoints = parseInt(ListWorkPoints.getCardPoints(cards[i])) || 1;
-					cardCount += cardPoints;
-				}
-			}
 
 			this.updateCountAndLimit(cardCount, listLimit);
 
@@ -98,6 +88,22 @@ class ListWorkPoints {
 
 		}
 
+	}
+
+	getCardCount() {
+		let cards = this.list.querySelectorAll('a.list-card:not(.bmko_header-card-applied)'),
+			cardCount = 0;
+
+		if (GLOBAL.IgnorePointsOnCards) {
+			cardCount = cards.length;
+		} else {
+			for (let i = cards.length-1; i>-1; i--) {
+				let cardPoints = parseInt(ListWorkPoints.getCardPoints(cards[i])) || 1;
+				cardCount += cardPoints;
+			}
+		}
+
+		return cardCount;
 	}
 
 	removeAccoutrements () {
@@ -130,12 +136,12 @@ class ListWorkPoints {
 			toggleRefuse = true;
 		} else if (cardCount == listLimit) {
 			toggleRefuse = true;
-			className = 'bmko_list-normal';
+			className = 'bmko_list-full';
 		} else if (cardCount < listLimit) {
 			// let spaces = listLimit - cardCount,
 			// 	s = (spaces == 1) ? '' : 's';
 			// after = `${spaces} space${s}`;
-			className = 'bmko_list-normal';
+			className = 'bmko_list-under';
 			toggleRefuse = false;
 		}
 
@@ -144,7 +150,7 @@ class ListWorkPoints {
 		span.textContent = after;
 		notice.appendChild(span);
 
-		this.list.classList.remove('bmko_list-full', 'bmko_list-over');
+		this.list.classList.remove('bmko_list-under', 'bmko_list-full', 'bmko_list-over');
 		this.list.classList.add(className);
 	}
 
@@ -177,14 +183,33 @@ class ListWorkPoints {
 
 	}
 
-	// TODO: here are the things
-	// listen for a card hovering over - the shadow being created
-	// get the list
-	// count its points
-	// if the points are under, do the following:
-		// get the dragged card
-		// get the card points on that piece of shit
-		// if those points are bigger than the list points, toggle refuse cards ture
-		// when it leaves, undo the process
+	static placeholderListener (card) {
+
+		// FIXME so far this only has logic to refuse, on the entry of une carte
+		// needs something to unrefuse on the exist of une carte
+
+		// FIXME furthermore it dont work
+
+		if (GLOBAL.RefuseNewCards && card) {
+
+			let list = card.closest('.list');
+
+			if (list) {
+
+				let lwp = new ListWorkPoints(list),
+					listPoints = lwp.getLimitFromTitle(),
+					cardPoints = ListWorkPoints.getCardPoints(card),
+					cardCount = this.getCardCount;
+
+				if (cardCount + cardPoints > listPoints) {
+					lwp.toggleRefuseCards(true);
+					// FIXME feedback to the user in an obvious way (dim card or list or something)
+				} else {
+					lwp.toggleRefuseCards(false);
+				}
+			}
+		}
+
+	}
 
 }
