@@ -16,7 +16,7 @@ tell application "Google Chrome"
 			end repeat
 		end repeat
 
-		delay 1
+		delay 0.5
 
 		set windowList to every tab of every window whose URL starts with "https://trello.com"
 
