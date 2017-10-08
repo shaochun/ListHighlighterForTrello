@@ -43,6 +43,8 @@ lhcompile () {
 	lhpcss;
 	lhocss;
 
+	osacompile -o $DIR/chrome.scpt $DIR/chrome.applescript
+
 	php -f $DIR/../optionsPageHtml/generateOptions.php;
 }
 

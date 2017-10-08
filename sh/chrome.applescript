@@ -28,7 +28,6 @@ tell application "Google Chrome"
 		end repeat
 
 		# make new window
-		# uncomment if this is becoming to you
 		# open location "chrome-extension://mbnamifgfdhlleidloampjacmjflaafb/options/index.html"
 
 	end if
