@@ -44,7 +44,9 @@ class ListWorkPoints {
 			let title = cardTitle.textContent || '',
 				matches = title.match(/\[([0-9]+)\]/);
 			if (matches && matches[1]) {
-				return matches[1];
+				return parseInt(matches[1]);
+			} else {
+				return 1;
 			}
 		}
 	}
@@ -91,15 +93,17 @@ class ListWorkPoints {
 	}
 
 	getCardCount() {
-		let cards = this.list.querySelectorAll('a.list-card:not(.bmko_header-card-applied)'),
+		let cards = this.list.querySelectorAll('.list-card'),
 			cardCount = 0;
 
 		if (GLOBAL.IgnorePointsOnCards) {
 			cardCount = cards.length;
 		} else {
 			for (let i = cards.length-1; i>-1; i--) {
-				let cardPoints = parseInt(ListWorkPoints.getCardPoints(cards[i])) || 1;
-				cardCount += cardPoints;
+				if (!cards[i].classList.contains('bmko_header-card-applied') && !cards[i].classList.contains('placeholder')) {
+					let cardPoints = parseInt(ListWorkPoints.getCardPoints(cards[i])) || 1;
+					cardCount += cardPoints;
+				}
 			}
 		}
 
@@ -154,13 +158,27 @@ class ListWorkPoints {
 		this.list.classList.add(className);
 	}
 
+	// FIXME this is failing "in flight" - removing class makes no difference
 	toggleRefuseCards(toggle) {
 		if (GLOBAL.RefuseNewCards) {
 			var listCards = this.list.querySelector('.list-cards'),
 				addCardButton = this.list.querySelector('.open-card-composer');
+
 			if (toggle) {
-				listCards.classList.remove('js-sortable', 'ui-sortable');
-				addCardButton.classList.add('hide');
+				// FIXME is it this that doesn't work? is it this that prevents cards being dropped?
+				setTimeout(function (listCards, addCardButton) {
+					listCards.classList.remove('js-sortable', 'ui-sortable');
+					addCardButton.classList.add('hide');
+				}, 0, listCards, addCardButton);
+
+				// FIXME dev code - dont seem to work
+				// setTimeout(function (listCards) {
+				// 	let ph = listCards.querySelector('.placeholder');
+				// 	if (ph) {
+				// 		console.log('remove');
+				// 		ph.remove();
+				// 	}
+				// }, 0, listCards);
 			} else {
 				listCards.classList.add('js-sortable', 'ui-sortable');
 				addCardButton.classList.remove('hide');
@@ -183,29 +201,52 @@ class ListWorkPoints {
 
 	}
 
-	static placeholderListener (card) {
+	static placeholderListener (placeholder) {
 
 		// FIXME so far this only has logic to refuse, on the entry of une carte
 		// needs something to unrefuse on the exist of une carte
 
 		// FIXME furthermore it dont work
 
-		if (GLOBAL.RefuseNewCards && card) {
+		// FIXME This is working, but only once the placeholder is already there — so it's too late.
+		// either need to add a mouseover to the list, instead of a mutation observer,
+		// or maybe try a timeout thing
 
-			let list = card.closest('.list');
+		if (GLOBAL.RefuseNewCards && placeholder) {
+
+			let list = placeholder.closest('.list');
 
 			if (list) {
 
-				let lwp = new ListWorkPoints(list),
-					listPoints = lwp.getLimitFromTitle(),
-					cardPoints = ListWorkPoints.getCardPoints(card),
-					cardCount = this.getCardCount;
+				let draggedCard = document.body.querySelector('body > .list-card');
 
-				if (cardCount + cardPoints > listPoints) {
-					lwp.toggleRefuseCards(true);
-					// FIXME feedback to the user in an obvious way (dim card or list or something)
-				} else {
-					lwp.toggleRefuseCards(false);
+				if (draggedCard) {
+
+					let lwp = new ListWorkPoints(list),
+						listPoints = lwp.getLimitFromTitle();
+
+					if (listPoints) {
+
+						let cardPoints = ListWorkPoints.getCardPoints(draggedCard),
+							cardCount = lwp.getCardCount();
+
+							// console.log('---ca`rte=---');
+							// console.log(draggedCard);
+							console.log(cardCount, 'cardCount');
+							console.log(cardPoints, 'cardPOints');
+							console.log(listPoints, 'listPOints');
+							// console.log('/----care000----');
+
+						if ((cardCount + cardPoints) > listPoints) {
+							console.log('FUCKETY CUNT');
+							lwp.toggleRefuseCards(true);
+							// FIXME feedback to the user in an obvious way (dim card or list or something)
+						} else {
+							console.log('ah shit who cares');
+							lwp.toggleRefuseCards(false);
+						}
+
+					}
 				}
 			}
 		}

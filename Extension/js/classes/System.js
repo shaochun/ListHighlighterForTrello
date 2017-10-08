@@ -116,9 +116,12 @@ class System {
 				ListWorkPoints.updateLists(listCards.closest('.list'));
 			}
 
-			console.log('ADDED',mutationRecords[0].addedNodes[0]);
-			console.log('REMOVED',mutationRecords[0].removedNodes[0]);
-			console.log('----FIN-----');
+			// FIXME Dev code
+			// var listHeader = listCards.closest('.list').querySelector('.list-header-name').value;
+			// console.log(listHeader);
+			// console.log('ADDED',   mutationRecords[0].addedNodes[0]);
+			// console.log('REMOVED', mutationRecords[0].removedNodes[0]);
+			// console.log('----FIN-----');
 
 			ListWorkPoints.placeholderListener(mutationRecords[0].removedNodes[0]);
 
