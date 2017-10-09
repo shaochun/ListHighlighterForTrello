@@ -145,7 +145,6 @@ class ListWorkPoints {
 		this.list.classList.add(className);
 	}
 
-	// FIXME feedback to the user in an obvious way (dim card or list or something)
 	toggleRefuseCards(toggle) {
 		if (GLOBAL.RefuseNewCards) {
 			let listCards = this.list.querySelector('.list-cards'),

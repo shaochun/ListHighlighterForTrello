@@ -128,21 +128,15 @@ class System {
 			}
 
 			if (GLOBAL.RefuseNewCards) {
-				let allLists = document.querySelectorAll('.list');
 				for (let record of mutationRecords) {
-					let thisList = record.target.closest('.list'),
-						otherLists = [];
-					for (let list of allLists) {
-						if (list != thisList) {
-							otherLists.push(list);
-						}
-					}
-					ListWorkPoints.placeholderHandler(thisList);
-					ListWorkPoints.updateLists(otherLists);
+					ListWorkPoints.updateLists(document.querySelectorAll('.list'));
+					ListWorkPoints.placeholderHandler(record.target.closest('.list'));
 				}
 			}
 
 		}
 	}
+
+
 
 }
