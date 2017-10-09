@@ -70,6 +70,8 @@ class ListWorkPoints {
 			this.list.classList.remove('bmko_list-has-limit');
 		}
 
+		this.list.classList.remove('bmko_refuse-new-cards');
+
 		if (listLimit && listLimit !== 0) {
 			let cardCount = this.getCardCount();
 			listLimit = parseInt(listLimit);
@@ -170,20 +172,17 @@ class ListWorkPoints {
 		this.toggleRefuseCards(toggleRefuse);
 	}
 
-	static refuseCardsWhileDragging (list) {
-		let draggedCard = document.body.querySelector('body > .list-card');
-		if (draggedCard) {
-			let lwp = new ListWorkPoints(list),
-				listPoints = lwp.getLimitFromTitle();
-			if (listPoints) {
-				if ((ListWorkPoints.getCardPoints(draggedCard) + lwp.getCardCount()) > listPoints) {
-					let placeholder = list.querySelector('.placeholder');
-					if (placeholder) {
-						placeholder.remove();
-					}
-					lwp.toggleRefuseCards(true);
-				} // TEMP May not be needed else { lwp.toggleRefuseCards(false); }
+	toggleRefuseWhileDragging (draggedPoints) {
+		if ((draggedPoints + this.getCardCount()) > this.getLimitFromTitle()) {
+			this.toggleRefuseCards(true);
+			this.list.classList.add('bmko_refuse-new-cards');
+			let placeholder = this.list.querySelector('.placeholder');
+			if (placeholder) {
+				placeholder.remove();
 			}
+		} else {
+			this.toggleRefuseCards(false);
+			this.list.classList.remove('bmko_refuse-new-cards');
 		}
 	}
 

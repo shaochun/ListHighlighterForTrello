@@ -128,12 +128,22 @@ class System {
 			}
 
 			if (GLOBAL.RefuseNewCards) {
-				for (let record of mutationRecords) {
-					ListWorkPoints.updateLists(document.querySelectorAll('.list'));
-					ListWorkPoints.refuseCardsWhileDragging(record.target.closest('.list'));
-				}
-			}
 
+				let allLists = document.querySelectorAll('.list');
+
+				for (let record of mutationRecords) {
+					let draggedCard = document.body.querySelector('body > .list-card');
+					if (draggedCard) {
+						for (let list of allLists) {
+							let lwp = new ListWorkPoints(list);
+							lwp.toggleRefuseWhileDragging(ListWorkPoints.getCardPoints(draggedCard));
+						}
+					} else {
+						ListWorkPoints.updateLists(allLists);
+					}
+				}
+
+			}
 		}
 	}
 
