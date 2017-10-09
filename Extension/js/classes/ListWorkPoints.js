@@ -170,34 +170,20 @@ class ListWorkPoints {
 		this.toggleRefuseCards(toggleRefuse);
 	}
 
-	static placeholderHandler (list) {
-		if (list) {
-
-			let draggedCard = document.body.querySelector('body > .list-card');
-			if (draggedCard) {
-
-				let lwp = new ListWorkPoints(list),
-					listPoints = lwp.getLimitFromTitle();
-
-				if (listPoints) {
-
-					let placeholder = list.querySelector('.placeholder'),
-						cardPoints = ListWorkPoints.getCardPoints(draggedCard),
-						cardCount = lwp.getCardCount();
-
-					if ((cardCount + cardPoints) > listPoints) {
-						if (placeholder) {
-							placeholder.remove();
-						}
-						lwp.toggleRefuseCards(true);
-					} else {
-						lwp.toggleRefuseCards(false);
+	static refuseCardsWhileDragging (list) {
+		let draggedCard = document.body.querySelector('body > .list-card');
+		if (draggedCard) {
+			let lwp = new ListWorkPoints(list),
+				listPoints = lwp.getLimitFromTitle();
+			if (listPoints) {
+				if ((ListWorkPoints.getCardPoints(draggedCard) + lwp.getCardCount()) > listPoints) {
+					let placeholder = list.querySelector('.placeholder');
+					if (placeholder) {
+						placeholder.remove();
 					}
-
-				}
-
+					lwp.toggleRefuseCards(true);
+				} // FIXME May not be needed else { lwp.toggleRefuseCards(false); }
 			}
-
 		}
 	}
 

@@ -130,7 +130,7 @@ class System {
 			if (GLOBAL.RefuseNewCards) {
 				for (let record of mutationRecords) {
 					ListWorkPoints.updateLists(document.querySelectorAll('.list'));
-					ListWorkPoints.placeholderHandler(record.target.closest('.list'));
+					ListWorkPoints.refuseCardsWhileDragging(record.target.closest('.list'));
 				}
 			}
 
