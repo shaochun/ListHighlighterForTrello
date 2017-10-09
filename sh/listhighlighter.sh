@@ -5,6 +5,10 @@ lhwatch () {
 	fswatch -0xv -l 1 "$listHighlighterDir" -e /css/ -e /options/index.html -e .git -e /sh/ | xargs -0 -n1 -I {} $DIR/watchhandler.sh {};
 }
 
+lhgo () {
+	$DIR/watchhandler.sh;
+}
+
 lhrelease () {
 
 	# Prepare the stuff for release
