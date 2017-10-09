@@ -1,3 +1,14 @@
+function getListTitle (element) {
+	if (element) {
+		let list = (element.classList.contains('list'))
+			? element
+			: element.closest('.list');
+		if (list) {
+			return list.querySelector('.list-header-name').value;
+		}
+	}
+}
+
 function flash (element) {
 
 	if (element.length) {

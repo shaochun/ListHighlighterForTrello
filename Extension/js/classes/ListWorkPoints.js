@@ -151,7 +151,6 @@ class ListWorkPoints {
 			let listCards = this.list.querySelector('.list-cards'),
 				addCardButton = this.list.querySelector('.open-card-composer'),
 				draggedCard = document.body.querySelector('body > .list-card');
-
 			if (toggle) {
 				listCards.classList.remove('js-sortable', 'ui-sortable');
 				addCardButton.classList.add('hide');
@@ -163,24 +162,18 @@ class ListWorkPoints {
 	}
 
 	updateRefuseCardStatus (cardCount, listLimit) {
-
 		var toggleRefuse;
-
 		if (cardCount >= listLimit) {
 			toggleRefuse = true;
 		} else if (cardCount < listLimit) {
 			toggleRefuse = false;
 		}
-
 		this.toggleRefuseCards(toggleRefuse);
-
 	}
 
 	static placeholderHandler (list) {
-
 		if (list) {
 
-			let placeholder = list.querySelector('.placeholder');
 			let draggedCard = document.body.querySelector('body > .list-card');
 			if (draggedCard) {
 
@@ -189,21 +182,23 @@ class ListWorkPoints {
 
 				if (listPoints) {
 
-					let cardPoints = ListWorkPoints.getCardPoints(draggedCard),
+					let placeholder = list.querySelector('.placeholder'),
+						cardPoints = ListWorkPoints.getCardPoints(draggedCard),
 						cardCount = lwp.getCardCount();
+
 					if ((cardCount + cardPoints) > listPoints) {
-						// FIXME this only works AFTER the first one
 						if (placeholder) {
 							placeholder.remove();
 						}
 						lwp.toggleRefuseCards(true);
 					} else {
-						// FIXME it's not undoing on leaving
 						lwp.toggleRefuseCards(false);
 					}
 
 				}
+
 			}
+
 		}
 	}
 

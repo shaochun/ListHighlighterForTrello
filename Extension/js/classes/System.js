@@ -108,9 +108,10 @@ class System {
 		}
 	}
 
-	// list
+	// list - observes .list-cards
 	static checkForNewCards(mutationRecords) {
 		if (mutationRecords[0] && mutationRecords[0] instanceof MutationRecord) {
+
 			var listCards = mutationRecords[0].target;
 			if (GLOBAL.EnableWIP && listCards.parentNode) {
 				ListWorkPoints.updateLists(listCards.closest('.list'));
@@ -126,13 +127,21 @@ class System {
 				Card.processCards(cards);
 			}
 
-			console.log(mutationRecords[0].removedNodes);
-
 			if (GLOBAL.RefuseNewCards) {
-				// FIXME the list that is passed through is the one where the card is moved TO
-				// so this won't work when the placeholder leaves the thing
-				ListWorkPoints.placeholderHandler(listCards.closest('.list'));
+				let allLists = document.querySelectorAll('.list');
+				for (let record of mutationRecords) {
+					let thisList = record.target.closest('.list'),
+						otherLists = [];
+					for (let list of allLists) {
+						if (list != thisList) {
+							otherLists.push(list);
+						}
+					}
+					ListWorkPoints.placeholderHandler(thisList);
+					ListWorkPoints.updateLists(otherLists);
+				}
 			}
+
 		}
 	}
 
