@@ -16,7 +16,7 @@ class ListWorkPoints {
 			} else {
 				listWorkPoints.removeAccoutrements();
 			}
-			// FIXME this is dirty and stupid - needs cardCount and listLimit
+			// TEMP this is dirty and stupid - needs cardCount and listLimit
 			// can't remember what this was supposed to be doing, but it causes a bug
 			// leaving the comments here till I put it back again later
 			// and see why I needed it after all
@@ -182,7 +182,7 @@ class ListWorkPoints {
 						placeholder.remove();
 					}
 					lwp.toggleRefuseCards(true);
-				} // FIXME May not be needed else { lwp.toggleRefuseCards(false); }
+				} // TEMP May not be needed else { lwp.toggleRefuseCards(false); }
 			}
 		}
 	}
