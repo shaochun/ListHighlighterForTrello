@@ -206,8 +206,9 @@
 
 		uniqID++;
 
-		// FIXME This to end of the function needs refactoring to avoid using global variables
+		// FIXME refactor to avoid global variables
 		// namely ctx and box
+		// Here to end of the function
 
 		window.ctx = this;
 
