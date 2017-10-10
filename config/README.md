@@ -7,6 +7,7 @@ This config directory should contain two files:
 
 	listHighlighterDir='/Path/to/ListHighlighterForTrello';
 	refreshOnWatch=false;
+	openOptionsOnRefresh=false;
 
 `listHighlighterDir` should be the full path to where you have the List Highlighter repo checked out
 
