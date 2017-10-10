@@ -210,11 +210,17 @@ body.body-color-blind-mode-enabled .bmko_high-list {
 		width: 100%;
 		height: 100%;
 	}
-	.open-card-composer::after {
-		content: "⚠️";
-		float: right;
-		margin-right: 2px;
-	}
+}
+
+@mixin openComposerWarning () {
+	content: "⚠️";
+	float: right;
+	margin-right: 2px;
+}
+
+.bmko_list-over .open-card-composer::after,
+.bmko_list-full .open-card-composer:hover::after {
+	@include openComposerWarning;
 }
 
 .bmko_refuse-new-cards {
