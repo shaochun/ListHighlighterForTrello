@@ -116,15 +116,6 @@ class System {
 				ListWorkPoints.updateLists(listCards.closest('.list'));
 			}
 
-			// FIXME Dev code
-			// var listHeader = listCards.closest('.list').querySelector('.list-header-name').value;
-			// console.log(listHeader);
-			// console.log('ADDED',   mutationRecords[0].addedNodes[0]);
-			// console.log('REMOVED', mutationRecords[0].removedNodes[0]);
-			// console.log('----FIN-----');
-
-			ListWorkPoints.placeholderListener(mutationRecords[0].removedNodes[0]);
-
 			var newCard = mutationRecords[0].addedNodes[0];
 			if (newCard && newCard.classList.contains('list-card')) {
 				Card.processCards(newCard);
@@ -133,6 +124,14 @@ class System {
 				// for dragging between lists
 				let cards = listCards.querySelectorAll('.list-card');
 				Card.processCards(cards);
+			}
+
+			console.log(mutationRecords[0].removedNodes);
+
+			if (GLOBAL.RefuseNewCards) {
+				// FIXME the list that is passed through is the one where the card is moved TO
+				// so this won't work when the placeholder leaves the thing
+				ListWorkPoints.placeholderHandler(listCards.closest('.list'));
 			}
 		}
 	}

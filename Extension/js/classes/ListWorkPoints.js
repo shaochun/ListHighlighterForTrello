@@ -145,8 +145,6 @@ class ListWorkPoints {
 		this.list.classList.add(className);
 	}
 
-	// FIXME this is failing "in flight" - removing class makes no difference
-	// TODO try a mutation observer
 	// FIXME feedback to the user in an obvious way (dim card or list or something)
 	toggleRefuseCards(toggle) {
 		if (GLOBAL.RefuseNewCards) {
@@ -157,7 +155,6 @@ class ListWorkPoints {
 			if (toggle) {
 				listCards.classList.remove('js-sortable', 'ui-sortable');
 				addCardButton.classList.add('hide');
-				// TODO set the watcher here
 			} else {
 				listCards.classList.add('js-sortable', 'ui-sortable');
 				addCardButton.classList.remove('hide');
@@ -165,7 +162,6 @@ class ListWorkPoints {
 		}
 	}
 
-	// HACK: this and the method above are very similar
 	updateRefuseCardStatus (cardCount, listLimit) {
 
 		var toggleRefuse;
@@ -180,33 +176,32 @@ class ListWorkPoints {
 
 	}
 
-	static placeholderListener (placeholder) {
+	static placeholderHandler (list) {
 
-		if (GLOBAL.RefuseNewCards && placeholder) {
+		if (list) {
 
-			let list = placeholder.closest('.list');
+			let placeholder = list.querySelector('.placeholder');
+			let draggedCard = document.body.querySelector('body > .list-card');
+			if (draggedCard) {
 
-			if (list) {
+				let lwp = new ListWorkPoints(list),
+					listPoints = lwp.getLimitFromTitle();
 
-				let draggedCard = document.body.querySelector('body > .list-card');
+				if (listPoints) {
 
-				if (draggedCard) {
-
-					let lwp = new ListWorkPoints(list),
-						listPoints = lwp.getLimitFromTitle();
-
-					if (listPoints) {
-
-						let cardPoints = ListWorkPoints.getCardPoints(draggedCard),
-							cardCount = lwp.getCardCount();
-
-						if ((cardCount + cardPoints) > listPoints) {
-							lwp.toggleRefuseCards(true);
-						} else {
-							lwp.toggleRefuseCards(false);
+					let cardPoints = ListWorkPoints.getCardPoints(draggedCard),
+						cardCount = lwp.getCardCount();
+					if ((cardCount + cardPoints) > listPoints) {
+						// FIXME this only works AFTER the first one
+						if (placeholder) {
+							placeholder.remove();
 						}
-
+						lwp.toggleRefuseCards(true);
+					} else {
+						// FIXME it's not undoing on leaving
+						lwp.toggleRefuseCards(false);
 					}
+
 				}
 			}
 		}
