@@ -78,6 +78,9 @@ class ListWorkPoints {
 			this.updateCountAndLimit(cardCount, listLimit);
 			if (GLOBAL.RefuseNewCards) {
 				this.updateRefuseCardStatus(cardCount, listLimit);
+			} else {
+				this.list.querySelector('.list-cards').classList.add('js-sortable', 'ui-sortable');
+				this.list.querySelector('.open-card-composer').classList.remove('hide');
 			}
 		} else {
 			setTimeout(function (self) {
