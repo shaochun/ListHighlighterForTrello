@@ -71,23 +71,16 @@ class ListWorkPoints {
 		}
 
 		if (listLimit && listLimit !== 0) {
-
 			let cardCount = this.getCardCount();
-
 			listLimit = parseInt(listLimit);
-
 			this.updateCountAndLimit(cardCount, listLimit);
-
 			if (GLOBAL.RefuseNewCards) {
 				this.updateRefuseCardStatus(cardCount, listLimit);
 			}
-
 		} else {
-
 			setTimeout(function (self) {
 				self.removeAccoutrements();
 			}, 0, this);
-
 		}
 
 	}
@@ -114,7 +107,6 @@ class ListWorkPoints {
 			notice.remove();
 		}
 		this.list.classList.remove('bmko_list-full', 'bmko_list-over', 'bmko_list-has-limit');
-		// i guess also unhide the [numbers] on cards
 	}
 
 	updateCountAndLimit (cardCount, listLimit) {
@@ -140,9 +132,6 @@ class ListWorkPoints {
 			toggleRefuse = true;
 			className = 'bmko_list-full';
 		} else if (cardCount < listLimit) {
-			// let spaces = listLimit - cardCount,
-			// 	s = (spaces == 1) ? '' : 's';
-			// after = `${spaces} space${s}`;
 			className = 'bmko_list-under';
 			toggleRefuse = false;
 		}
@@ -156,35 +145,9 @@ class ListWorkPoints {
 		this.list.classList.add(className);
 	}
 
-	createCover () {
-
-		var existingList = document.querySelector('.bmko_list-cover');
-		if (!existingList) {
-
-			let rect = this.list.getBoundingClientRect();
-			let cover = document.createElement('div');
-
-			cover.style.bottom = rect.bottom + 'px';
-			cover.style.left = rect.left + 'px';
-			cover.style.right = rect.right + 'px';
-			cover.style.height = rect.height + 'px';
-			cover.style.width = rect.width + 'px';
-
-			cover.classList.add('bmko_list-cover');
-			$id('board').appendChild(cover);
-		}
-
-	}
-
-	static removeCovers () {
-		var covers = document.querySelectorAll('.bmko_list-cover');
-		for (let cover of covers) {
-			cover.remove();
-		}
-	}
-
 	// FIXME this is failing "in flight" - removing class makes no difference
 	// TODO try a mutation observer
+	// FIXME feedback to the user in an obvious way (dim card or list or something)
 	toggleRefuseCards(toggle) {
 		if (GLOBAL.RefuseNewCards) {
 			let listCards = this.list.querySelector('.list-cards'),
@@ -192,33 +155,12 @@ class ListWorkPoints {
 				draggedCard = document.body.querySelector('body > .list-card');
 
 			if (toggle) {
-
-				// if (draggedCard) {
-					// this.createCover();
-					this.list.style.pointerEvents = 'none';
-					// this.list.style.opacity = '.4';
-				// }
-
-				// FIXME feedback to the user in an obvious way (dim card or list or something)
 				listCards.classList.remove('js-sortable', 'ui-sortable');
 				addCardButton.classList.add('hide');
-
-				// }, 0, listCards, addCardButton);
-
-				// FIXME dev code - dont seem to work
-				// setTimeout(function (listCards) {
-				// 	// console.log(listCards.closest('.list').querySelector('.list-header').textContent);
-				// 	let ph = listCards.querySelector('.placeholder');
-				// 	if (ph) {
-				// 		// console.log('remove');
-				// 		ph.remove();
-				// 	}
-				// }, 0, listCards);
-			}
-			else {
+				// TODO set the watcher here
+			} else {
 				listCards.classList.add('js-sortable', 'ui-sortable');
 				addCardButton.classList.remove('hide');
-				ListWorkPoints.removeCovers();
 			}
 		}
 	}
@@ -239,15 +181,6 @@ class ListWorkPoints {
 	}
 
 	static placeholderListener (placeholder) {
-
-		// FIXME so far this only has logic to refuse, on the entry of une carte
-		// needs something to unrefuse on the exist of une carte
-
-		// FIXME furthermore it dont work
-
-		// FIXME This is working, but only once the placeholder is already there — so it's too late.
-		// either need to add a mouseover to the list, instead of a mutation observer,
-		// or maybe try a timeout thing
 
 		if (GLOBAL.RefuseNewCards && placeholder) {
 
@@ -277,7 +210,6 @@ class ListWorkPoints {
 				}
 			}
 		}
-
 	}
 
 }
