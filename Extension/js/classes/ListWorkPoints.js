@@ -93,17 +93,15 @@ class ListWorkPoints {
 	}
 
 	getCardCount() {
-		let cards = this.list.querySelectorAll('.list-card'),
+		let cards = this.list.querySelectorAll('.list-card:not(.bmko_header-card-applied):not(.placeholder)'),
 			cardCount = 0;
 
 		if (GLOBAL.IgnorePointsOnCards) {
 			cardCount = cards.length;
 		} else {
-			for (let i = cards.length-1; i>-1; i--) {
-				if (!cards[i].classList.contains('bmko_header-card-applied') && !cards[i].classList.contains('placeholder')) {
-					let cardPoints = parseInt(ListWorkPoints.getCardPoints(cards[i])) || 1;
-					cardCount += cardPoints;
-				}
+			for (let card of cards) {
+				let cardPoints = parseInt(ListWorkPoints.getCardPoints(card)) || 1;
+				cardCount += cardPoints;
 			}
 		}
 
@@ -158,30 +156,69 @@ class ListWorkPoints {
 		this.list.classList.add(className);
 	}
 
+	createCover () {
+
+		var existingList = document.querySelector('.bmko_list-cover');
+		if (!existingList) {
+
+			let rect = this.list.getBoundingClientRect();
+			let cover = document.createElement('div');
+
+			cover.style.bottom = rect.bottom + 'px';
+			cover.style.left = rect.left + 'px';
+			cover.style.right = rect.right + 'px';
+			cover.style.height = rect.height + 'px';
+			cover.style.width = rect.width + 'px';
+
+			cover.classList.add('bmko_list-cover');
+			$id('board').appendChild(cover);
+		}
+
+	}
+
+	static removeCovers () {
+		var covers = document.querySelectorAll('.bmko_list-cover');
+		for (let cover of covers) {
+			cover.remove();
+		}
+	}
+
 	// FIXME this is failing "in flight" - removing class makes no difference
+	// TODO try a mutation observer
 	toggleRefuseCards(toggle) {
 		if (GLOBAL.RefuseNewCards) {
-			var listCards = this.list.querySelector('.list-cards'),
-				addCardButton = this.list.querySelector('.open-card-composer');
+			let listCards = this.list.querySelector('.list-cards'),
+				addCardButton = this.list.querySelector('.open-card-composer'),
+				draggedCard = document.body.querySelector('body > .list-card');
 
 			if (toggle) {
-				// FIXME is it this that doesn't work? is it this that prevents cards being dropped?
-				setTimeout(function (listCards, addCardButton) {
-					listCards.classList.remove('js-sortable', 'ui-sortable');
-					addCardButton.classList.add('hide');
-				}, 0, listCards, addCardButton);
+
+				// if (draggedCard) {
+					// this.createCover();
+					this.list.style.pointerEvents = 'none';
+					// this.list.style.opacity = '.4';
+				// }
+
+				// FIXME feedback to the user in an obvious way (dim card or list or something)
+				listCards.classList.remove('js-sortable', 'ui-sortable');
+				addCardButton.classList.add('hide');
+
+				// }, 0, listCards, addCardButton);
 
 				// FIXME dev code - dont seem to work
 				// setTimeout(function (listCards) {
+				// 	// console.log(listCards.closest('.list').querySelector('.list-header').textContent);
 				// 	let ph = listCards.querySelector('.placeholder');
 				// 	if (ph) {
-				// 		console.log('remove');
+				// 		// console.log('remove');
 				// 		ph.remove();
 				// 	}
 				// }, 0, listCards);
-			} else {
+			}
+			else {
 				listCards.classList.add('js-sortable', 'ui-sortable');
 				addCardButton.classList.remove('hide');
+				ListWorkPoints.removeCovers();
 			}
 		}
 	}
@@ -230,19 +267,9 @@ class ListWorkPoints {
 						let cardPoints = ListWorkPoints.getCardPoints(draggedCard),
 							cardCount = lwp.getCardCount();
 
-							// console.log('---ca`rte=---');
-							// console.log(draggedCard);
-							console.log(cardCount, 'cardCount');
-							console.log(cardPoints, 'cardPOints');
-							console.log(listPoints, 'listPOints');
-							// console.log('/----care000----');
-
 						if ((cardCount + cardPoints) > listPoints) {
-							console.log('FUCKETY CUNT');
 							lwp.toggleRefuseCards(true);
-							// FIXME feedback to the user in an obvious way (dim card or list or something)
 						} else {
-							console.log('ah shit who cares');
 							lwp.toggleRefuseCards(false);
 						}
 
