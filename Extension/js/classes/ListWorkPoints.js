@@ -111,7 +111,7 @@ class ListWorkPoints {
 	updateCountAndLimit (cardCount, listLimit) {
 
 		var notice = this.list.querySelector('.bmko_list-limit-notice'),
-			className, after, span = document.createElement('span'), toggleRefuse;
+			className, over, span = document.createElement('span'), toggleRefuse;
 
 		if (!notice) {
 			notice = document.createElement('div');
@@ -124,7 +124,7 @@ class ListWorkPoints {
 		notice.textContent = `${cardCount} / ${listLimit}`;
 
 		if (cardCount > listLimit) {
-			after = `${cardCount - listLimit} over`;
+			over = cardCount - listLimit;
 			className = 'bmko_list-over';
 			toggleRefuse = true;
 		} else if (cardCount == listLimit) {
@@ -137,8 +137,9 @@ class ListWorkPoints {
 
 		this.toggleRefuseCards(toggleRefuse);
 
-		span.textContent = after;
-		notice.appendChild(span);
+		if (typeof over == 'number') {
+			notice.textContent = `${over} over ・ ${notice.textContent}`;
+		}
 
 		this.list.classList.remove('bmko_list-under', 'bmko_list-full', 'bmko_list-over');
 		this.list.classList.add(className);

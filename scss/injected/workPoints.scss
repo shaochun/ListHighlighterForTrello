@@ -1,9 +1,19 @@
-@mixin warningBackground () {
-	$color: rgb(255, 176, 0);
-	$bgColor: black;
+@mixin warningBackground ($opacity) {
+	$color:   rgba(255, 176, 0, $opacity);
+	$bgColor: rgba(0, 0, 0, $opacity);
 	background-color: $bgColor;
 	background-image: linear-gradient(to bottom right, $color 25%, transparent 25%, transparent 50%, $color 50%, $color 75%, transparent 75%, transparent);
 	background-size: 2pc 2pc;
+}
+
+@mixin displayBlock {
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: block;
+	position: absolute;
+	content: ' ';
 }
 
 .bmko_list-limit-notice {
@@ -13,20 +23,15 @@
 	text-transform: uppercase;
 	color: var(--list-button-color);
 	border-radius: 4px;
+	text-align: right;
 
 	&:empty {
 		display: none;
 	}
 
-	span {
-		float: right;
-	}
-
 	.bmko_list-over & {
 		color: var(--list-color);
-		& span {
-			font-weight: bold;
-		}
+		font-weight: bold;
 	}
 }
 
@@ -42,13 +47,9 @@
 	}
 
 	.placeholder::before {
-		display: block;
-		content: " ";
-
 		border-radius: 3px;
-
-		@include warningBackground();
-		opacity: .05;
+		@include warningBackground(.05);
+		@include displayBlock;
 	}
 
 	.placeholder::after {
@@ -60,19 +61,11 @@
 
 .bmko_refuse-new-cards {
 	&::after {
-		position: absolute;
 		z-index: 5;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		display: block;
-		content: " ";
-
 		font-size: 30px;
 		border-radius: 3px;
 
-		@include warningBackground();
-		opacity: .1;
+		@include warningBackground(.1);
+		@include displayBlock;
 	}
 }
