@@ -23,8 +23,8 @@ class Card {
 		}
 
 		if (Array.isArray(cards) || cards instanceof NodeList) {
-			for (let i = cards.length -1; i>-1; i--) {
-				let card = new Card(cards[i]);
+			for (let card of cards) {
+				card = new Card(card);
 				card.process();
 			}
 		}

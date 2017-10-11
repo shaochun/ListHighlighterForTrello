@@ -12,8 +12,8 @@ function getListTitle (element) {
 function flash (element) {
 
 	if (element.length) {
-		for (let i = element.length -1; i>-1; i--) {
-			element[i].style.outline = '10px solid red';
+		for (let el of element) {
+			el.style.outline = '10px solid red';
 		}
 	} else if (element.card) {
 		element.card.style.outline = '10px solid red';
@@ -24,8 +24,8 @@ function flash (element) {
 	setTimeout(
 		function (element) {
 			if (element.length) {
-				for (let i = element.length -1; i>-1; i--) {
-					element[i].style.outline = null;
+				for (let el of element) {
+					el.style.outline = null;
 				}
 			} else if (element.card) {
 				element.card.style.outline = '10px solid red';

@@ -58,8 +58,8 @@ function watch (watcherKey, targets) {
 	var watcher = getWatcher(watcherKey, targets);
 
 	if (watcher.targets instanceof NodeList || Array.isArray(watcher.targets)) {
-		for (let i = watcher.targets.length - 1; i > -1; i--) {
-			executeWatcher (watcher.targets[i], watcher);
+		for (let target of watcher.targets) {
+			executeWatcher (target, watcher);
 		}
 	} else if (watcher.targets instanceof HTMLElement) {
 		executeWatcher (watcher.targets, watcher);

@@ -39,8 +39,7 @@ class ListHighlighter {
 					let countTagDone = false,
 						hashTagDone = false;
 
-					for (let i=0, x=matches.length; i<x; i++) {
-						let match = matches[i];
+					for (let match of matches) {
 
 						if (countTagDone == false && match.startsWith('[')) {
 							match = match.replace(/(\[|\])/g, '\\$1');
@@ -196,10 +195,9 @@ class ListHighlighter {
 
 		var lists = document.querySelectorAll('.list');
 
-		for (var i = 0, len = lists.length; i < len; i++) {
+		for (let list of lists) {
 
-			let list = lists[i],
-				header = list.querySelector('.list-header h2');
+			let header = list.querySelector('.list-header h2');
 
 			list.classList.remove('bmko_high-list', 'bmko_normal-list', 'bmko_low-list', 'bmko_ignore-list', 'bmko_trash-list');
 
@@ -251,9 +249,8 @@ class ListHighlighter {
 
 		var lists = document.querySelectorAll('.list');
 
-		for (var i = 0, len = lists.length; i < len; i++) {
+		for (let list of lists) {
 
-			let list = lists[i];
 			list.classList.remove('bmko_high-list', 'bmko_normal-list', 'bmko_low-list', 'bmko_ignore-list', 'bmko_trash-list');
 
 			if (GLOBAL.HighlightTags && GLOBAL.HideHashtags) {
@@ -271,8 +268,8 @@ class ListHighlighter {
 
 	static toggleHideHashtags (hide) {
 		var lists = document.querySelectorAll('.list');
-		for (var i = 0, len = lists.length; i < len; i++) {
-			let textarea = lists[i].querySelector('.list-header h2 + textarea');
+		for (let list of lists) {
+			let textarea = list.querySelector('.list-header h2 + textarea');
 			if (textarea) {
 				if (hide) {
 					ListHighlighter.detagHeader(textarea);

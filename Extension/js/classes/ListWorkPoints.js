@@ -9,8 +9,8 @@ class ListWorkPoints {
 
 		var lists = document.querySelectorAll('.list');
 
-		for (var i = 0, len = lists.length; i < len; i++) {
-			let listWorkPoints = new ListWorkPoints(lists[i]);
+		for (let list of lists) {
+			let listWorkPoints = new ListWorkPoints(list);
 			if (GLOBAL.EnableWIP) {
 				listWorkPoints.update();
 			} else {

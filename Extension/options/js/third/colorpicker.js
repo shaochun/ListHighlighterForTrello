@@ -11,12 +11,15 @@
 	 */
 	function $(el, attrs, children) {
 		el = document.createElementNS(svgNS, el);
-		for (var key in attrs)
+		for (let key in attrs) {
 			el.setAttribute(key, attrs[key]);
+		}
 		if (Object.prototype.toString.call(children) != '[object Array]') children = [children];
-		var i = 0, len = (children[0] && children.length) || 0;
-		for (; i < len; i++)
-			el.appendChild(children[i]);
+		if (children[0] && children.length) {
+			for (let child of children) {
+				el.appendChild(child);
+			}
+		}
 		return el;
 	}
 
