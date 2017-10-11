@@ -68,23 +68,11 @@ class ListHighlighter {
 	}
 
 	static detagHeaderTimeout () {
-
-		// var textarea;
-		//
-		// if (arguments[0] instanceof HTMLTextAreaElement) {
-		// 	textarea = arguments[0];
-		// } else if (arguments[0] instanceof Event) {
-		// 	textarea = arguments[0].target;
-		// }
-
-		// TEMP defined twice, code above seems completely irrelevant
-
 		var textarea = this;
 		var header = textarea.previousElementSibling;
 		window.setTimeout(function () {
 			ListHighlighter.detagHeader(header);
 		}, 10);
-
 	}
 
 	static retagHeader () {
