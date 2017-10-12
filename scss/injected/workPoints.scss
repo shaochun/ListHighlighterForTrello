@@ -1,5 +1,5 @@
-@mixin warningBackground ($opacity) {
-	$color:   rgba(255, 176, 0, $opacity);
+@mixin warningBackground ($yellow, $opacity) {
+	$color:   rgba($yellow, $opacity);
 	$bgColor: rgba(0, 0, 0, $opacity);
 	background-color: $bgColor;
 	background-image: linear-gradient(to bottom right, $color 25%, transparent 25%, transparent 50%, $color 50%, $color 75%, transparent 75%, transparent);
@@ -35,6 +35,32 @@
 	}
 }
 
+.bmko_list-over::before {
+	@include warningBackground(rgb(240, 216, 0), .5);
+	@include displayBlock;
+
+	// bottom
+	// background-repeat: repeat-x;
+	// top: auto;
+	// height: 3px;
+	// border-radius: 0 0 3px 3px;
+	// background-size: 1pc 1pc;
+
+	// top
+	background-repeat: repeat-x;
+	bottom: auto;
+	height: 5px;
+	border-radius: 3px 3px 0 0;
+	background-size: 20px 20px;
+
+	// Left hand side
+	// background-repeat: repeat-y;
+	// right: auto;
+	// width: 3px;
+	// border-radius: 3px 0 0 3px;
+	// background-size: 1pc 1pc;
+}
+
 .bmko_list-full,
 .bmko_list-over {
 	.placeholder::before,
@@ -48,7 +74,7 @@
 
 	.placeholder::before {
 		border-radius: 3px;
-		@include warningBackground(.05);
+		@include warningBackground(rgb(247, 199, 92), .2);
 		@include displayBlock;
 	}
 
@@ -65,7 +91,7 @@
 		font-size: 30px;
 		border-radius: 3px;
 
-		@include warningBackground(.1);
+		@include warningBackground(rgb(168, 120, 13), .25);
 		@include displayBlock;
 	}
 }
