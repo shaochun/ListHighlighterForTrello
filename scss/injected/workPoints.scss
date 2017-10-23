@@ -61,8 +61,8 @@
 	// background-size: 1pc 1pc;
 }
 
-.bmko_list-full,
-.bmko_list-over {
+.bmko_list-full:not([data-bmko-original-list]),
+.bmko_list-over:not([data-bmko-original-list]) {
 	.placeholder::before,
 	.placeholder::after {
 		position: absolute;

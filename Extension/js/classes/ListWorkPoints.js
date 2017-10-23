@@ -170,18 +170,46 @@ class ListWorkPoints {
 		this.toggleRefuseCards(toggleRefuse);
 	}
 
-	toggleRefuseWhileDragging (draggedPoints) {
-		if ((draggedPoints + this.getCardCount()) > this.getLimitFromTitle()) {
-			this.toggleRefuseCards(true);
-			this.list.classList.add('bmko_refuse-new-cards');
-			let placeholder = this.list.querySelector('.placeholder');
-			if (placeholder) {
-				placeholder.remove();
-			}
+	static toggleOriginalList(list) {
+		var lwp = new ListWorkPoints(list);
+		if (lwp.isOriginalList()) {
+			list.removeAttribute('data-bmko-original-list');
 		} else {
+			list.dataset.bmkoOriginalList = 'yes';
+		}
+	}
+
+	isOriginalList() {
+		if (this.list.dataset.bmkoOriginalList) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	toggleRefuseWhileDragging (draggedPoints) {
+
+		if (this.isOriginalList()) {
+
 			this.toggleRefuseCards(false);
 			this.list.classList.remove('bmko_refuse-new-cards');
+
+		} else {
+
+			if ((draggedPoints + this.getCardCount()) > this.getLimitFromTitle()) {
+				this.toggleRefuseCards(true);
+				this.list.classList.add('bmko_refuse-new-cards');
+				let placeholder = this.list.querySelector('.placeholder');
+				if (placeholder) {
+					placeholder.remove();
+				}
+			} else {
+				this.toggleRefuseCards(false);
+				this.list.classList.remove('bmko_refuse-new-cards');
+			}
+
 		}
+
 	}
 
 }

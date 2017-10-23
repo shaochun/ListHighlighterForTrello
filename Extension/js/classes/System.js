@@ -114,7 +114,13 @@ class System {
 
 			var listCards = mutationRecords[0].target;
 			if (GLOBAL.EnableWIP && listCards.parentNode) {
-				ListWorkPoints.updateLists(listCards.closest('.list'));
+				let list = listCards.closest('.list');
+				ListWorkPoints.updateLists(list);
+
+				if (typeof mutationRecords[0].removedNodes[0] == 'undefined') {
+					// undefined removedNodes[0] means either a list has just been picked up, or just been dropped
+					ListWorkPoints.toggleOriginalList(list);
+				}
 			}
 
 			var newCard = mutationRecords[0].addedNodes[0];
@@ -146,7 +152,6 @@ class System {
 			}
 		}
 	}
-
 
 
 }
