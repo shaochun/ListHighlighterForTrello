@@ -112,44 +112,53 @@ class System {
 	static checkForNewCards(mutationRecords) {
 		if (mutationRecords[0] && mutationRecords[0] instanceof MutationRecord) {
 
-			var listCards = mutationRecords[0].target;
+			var listCards = mutationRecords[0].target,
+				newCard = mutationRecords[0].addedNodes[0],
+				isAddedCard = (typeof newCard != 'undefined'
+					&& newCard instanceof HTMLElement
+					&& newCard.classList.contains('active-card')
+				);
+
 			if (GLOBAL.EnableWIP && listCards.parentNode) {
-				let list = listCards.closest('.list');
-				ListWorkPoints.updateLists(list);
+
+				if (isAddedCard) {
+					ListWorkPoints.updateLists();
+				}
 
 				if (typeof mutationRecords[0].removedNodes[0] == 'undefined') {
 					// undefined removedNodes[0] means either a list has just been picked up, or just been dropped
-					ListWorkPoints.toggleOriginalList(list);
+					ListWorkPoints.toggleOriginalList(listCards.closest('.list'));
 				}
 			}
 
-			var newCard = mutationRecords[0].addedNodes[0];
-			if (newCard && newCard.classList.contains('list-card')) {
+			if (isAddedCard) {
 				Card.processCards(newCard);
 				watch('listCardTitle', newCard.querySelector('.list-card-title'));
 			} else {
 				// for dragging between lists
-				let cards = listCards.querySelectorAll('.list-card');
-				Card.processCards(cards);
+				// QUESTION is this necessary?
+				Card.processCards(listCards.querySelectorAll('.list-card'));
 			}
 
-			if (GLOBAL.RefuseNewCards) {
+			// if (GLOBAL.RefuseNewCards) {
 
 				let allLists = document.querySelectorAll('.list');
 
+				// QUESTION is this for loop necessary?
 				for (let record of mutationRecords) {
 					let draggedCard = document.body.querySelector('body > .list-card');
+					// .bmko_header-card-applied
 					if (draggedCard) {
 						for (let list of allLists) {
 							let lwp = new ListWorkPoints(list);
-							lwp.toggleRefuseWhileDragging(ListWorkPoints.getCardPoints(draggedCard));
+							lwp.toggleOverWhileDragging(ListWorkPoints.getCardPoints(draggedCard));
 						}
 					} else {
 						ListWorkPoints.updateLists(allLists);
 					}
 				}
 
-			}
+			// }
 		}
 	}
 

@@ -64,7 +64,7 @@ class ListWorkPoints {
 			this.list.classList.remove('bmko_list-has-limit');
 		}
 
-		this.list.classList.remove('bmko_refuse-new-cards');
+		// this.list.classList.remove('bmko_refuse-new-cards');
 
 		if (listLimit && listLimit !== 0) {
 			let cardCount = this.getCardCount();
@@ -135,7 +135,7 @@ class ListWorkPoints {
 			toggleRefuse = false;
 		}
 
-		this.toggleRefuseCards(toggleRefuse);
+		this.toggleOverStatus(toggleRefuse);
 
 		if (typeof over == 'number') {
 			notice.textContent = `${over} over ・ ${notice.textContent}`;
@@ -145,19 +145,35 @@ class ListWorkPoints {
 		this.list.classList.add(className);
 	}
 
-	toggleRefuseCards(toggle) {
+	toggleOverStatus(toggle, toggleClass) {
+
+		toggleClass = toggleClass || false;
+
 		if (GLOBAL.RefuseNewCards) {
+
 			let listCards = this.list.querySelector('.list-cards'),
-				addCardButton = this.list.querySelector('.open-card-composer'),
-				draggedCard = document.body.querySelector('body > .list-card');
+				addCardButton = this.list.querySelector('.open-card-composer');
+
 			if (toggle) {
 				listCards.classList.remove('js-sortable', 'ui-sortable');
 				addCardButton.classList.add('hide');
+				if (toggleClass) {
+					this.list.classList.add('bmko_refuse-new-cards');
+				}
 			} else {
 				listCards.classList.add('js-sortable', 'ui-sortable');
 				addCardButton.classList.remove('hide');
+				if (toggleClass) {
+					this.list.classList.remove('bmko_refuse-new-cards');
+				}
 			}
+
+		} else {
+
+			this.list.classList.toggle('bmko_list-would-be-full', toggle);
+
 		}
+
 	}
 
 	updateRefuseCardStatus (cardCount, listLimit) {
@@ -167,7 +183,7 @@ class ListWorkPoints {
 		} else if (cardCount < listLimit) {
 			toggleRefuse = false;
 		}
-		this.toggleRefuseCards(toggleRefuse);
+		this.toggleOverStatus(toggleRefuse);
 	}
 
 	static toggleOriginalList(list) {
@@ -187,25 +203,31 @@ class ListWorkPoints {
 		}
 	}
 
-	toggleRefuseWhileDragging (draggedPoints) {
+	// refuses new card
+	// TODO updates warning
+	toggleOverWhileDragging (draggedPoints) {
 
 		if (this.isOriginalList()) {
 
-			this.toggleRefuseCards(false);
-			this.list.classList.remove('bmko_refuse-new-cards');
+			this.toggleOverStatus(false);
 
 		} else {
 
 			if ((draggedPoints + this.getCardCount()) > this.getLimitFromTitle()) {
-				this.toggleRefuseCards(true);
-				this.list.classList.add('bmko_refuse-new-cards');
-				let placeholder = this.list.querySelector('.placeholder');
-				if (placeholder) {
-					placeholder.remove();
+
+				this.toggleOverStatus(true);
+
+				if (GLOBAL.RefuseNewCards) {
+					let placeholder = this.list.querySelector('.placeholder');
+					if (placeholder) {
+						placeholder.remove();
+					}
 				}
+
 			} else {
-				this.toggleRefuseCards(false);
-				this.list.classList.remove('bmko_refuse-new-cards');
+
+				this.toggleOverStatus(false);
+
 			}
 
 		}
