@@ -64,7 +64,7 @@ class ListWorkPoints {
 			this.list.classList.remove('bmko_list-has-limit');
 		}
 
-		// this.list.classList.remove('bmko_refuse-new-cards');
+		this.list.classList.remove('bmko_refuse-new-cards');
 
 		if (listLimit && listLimit !== 0) {
 			let cardCount = this.getCardCount();
