@@ -140,7 +140,7 @@ class System {
 				Card.processCards(listCards.querySelectorAll('.list-card'));
 			}
 
-			if (GLOBAL.RefuseNewCards) {
+			if (GLOBAL.EnableWIP) {
 
 				let allLists = document.querySelectorAll('.list');
 
@@ -150,8 +150,13 @@ class System {
 					// .bmko_header-card-applied
 					if (draggedCard) {
 						for (let list of allLists) {
-							let lwp = new ListWorkPoints(list);
-							lwp.toggleRefuseWhileDragging(ListWorkPoints.getCardPoints(draggedCard));
+							let lwp = new ListWorkPoints(list),
+								draggedPoints = ListWorkPoints.getCardPoints(draggedCard);
+							if (GLOBAL.RefuseNewCards) {
+								lwp.toggleRefuseWhileDragging(draggedPoints);
+							} else {
+								lwp.toggleWouldBeFullWhileDragging(draggedPoints);
+							}
 						}
 					} else {
 						ListWorkPoints.updateLists(allLists);
