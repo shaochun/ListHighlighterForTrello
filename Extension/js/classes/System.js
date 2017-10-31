@@ -140,7 +140,7 @@ class System {
 				Card.processCards(listCards.querySelectorAll('.list-card'));
 			}
 
-			// if (GLOBAL.RefuseNewCards) {
+			if (GLOBAL.RefuseNewCards) {
 
 				let allLists = document.querySelectorAll('.list');
 
@@ -151,14 +151,14 @@ class System {
 					if (draggedCard) {
 						for (let list of allLists) {
 							let lwp = new ListWorkPoints(list);
-							lwp.toggleOverWhileDragging(ListWorkPoints.getCardPoints(draggedCard));
+							lwp.toggleRefuseWhileDragging(ListWorkPoints.getCardPoints(draggedCard));
 						}
 					} else {
 						ListWorkPoints.updateLists(allLists);
 					}
 				}
 
-			// }
+			}
 		}
 	}
 

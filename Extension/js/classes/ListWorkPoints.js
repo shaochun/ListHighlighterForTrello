@@ -135,7 +135,7 @@ class ListWorkPoints {
 			toggleRefuse = false;
 		}
 
-		this.toggleOverStatus(toggleRefuse);
+		this.toggleRefuseStatus(toggleRefuse);
 
 		if (typeof over == 'number') {
 			notice.textContent = `${over} over ・ ${notice.textContent}`;
@@ -145,9 +145,7 @@ class ListWorkPoints {
 		this.list.classList.add(className);
 	}
 
-	toggleOverStatus(toggle, toggleClass) {
-
-		toggleClass = toggleClass || false;
+	toggleRefuseStatus(toggle) {
 
 		if (GLOBAL.RefuseNewCards) {
 
@@ -157,15 +155,9 @@ class ListWorkPoints {
 			if (toggle) {
 				listCards.classList.remove('js-sortable', 'ui-sortable');
 				addCardButton.classList.add('hide');
-				if (toggleClass) {
-					this.list.classList.add('bmko_refuse-new-cards');
-				}
 			} else {
 				listCards.classList.add('js-sortable', 'ui-sortable');
 				addCardButton.classList.remove('hide');
-				if (toggleClass) {
-					this.list.classList.remove('bmko_refuse-new-cards');
-				}
 			}
 
 		} else {
@@ -183,7 +175,7 @@ class ListWorkPoints {
 		} else if (cardCount < listLimit) {
 			toggleRefuse = false;
 		}
-		this.toggleOverStatus(toggleRefuse);
+		this.toggleRefuseStatus(toggleRefuse);
 	}
 
 	static toggleOriginalList(list) {
@@ -205,28 +197,29 @@ class ListWorkPoints {
 
 	// refuses new card
 	// TODO updates warning
-	toggleOverWhileDragging (draggedPoints) {
+	toggleRefuseWhileDragging (draggedPoints) {
 
 		if (this.isOriginalList()) {
 
-			this.toggleOverStatus(false);
+			this.toggleRefuseStatus(false);
+			this.list.classList.remove('bmko_refuse-new-cards');
 
 		} else {
 
 			if ((draggedPoints + this.getCardCount()) > this.getLimitFromTitle()) {
 
-				this.toggleOverStatus(true);
-
-				if (GLOBAL.RefuseNewCards) {
-					let placeholder = this.list.querySelector('.placeholder');
-					if (placeholder) {
-						placeholder.remove();
-					}
+				this.toggleRefuseStatus(true);
+				this.list.classList.add('bmko_refuse-new-cards');
+				let placeholder = this.list.querySelector('.placeholder');
+				if (placeholder) {
+					placeholder.remove();
 				}
 
 			} else {
 
-				this.toggleOverStatus(false);
+				this.toggleRefuseStatus(false);
+				this.list.classList.remove('bmko_refuse-new-cards');
+
 
 			}
 
