@@ -229,17 +229,17 @@ class ListWorkPoints {
 
 	}
 
-	toggleWouldBeFullWhileDragging (draggedPoints) {
+	toggleWouldBeOverWhileDragging (draggedPoints) {
 
 		if (this.isOriginalList()) {
 
-			this.list.classList.remove('bmko_list-would-be-full');
+			this.list.classList.remove('bmko_list-would-be-over');
 
 		} else {
 
 			let limit = this.getLimitFromTitle();
 			this.list.classList.toggle(
-				'bmko_list-would-be-full',
+				'bmko_list-would-be-over',
 				(typeof limit != 'undefined' && (draggedPoints + this.getCardCount()) > limit)
 			);
 

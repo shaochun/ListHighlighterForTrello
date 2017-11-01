@@ -133,7 +133,7 @@ class System {
 
 				allLists = document.querySelectorAll('.list');
 
-				let cardBeingDragged = false;
+				let draggedCardExists = false;
 
 				if (listCards.parentNode && isAddedCard) {
 					ListWorkPoints.updateLists();
@@ -145,7 +145,7 @@ class System {
 
 					if (draggedCard) {
 
-						cardBeingDragged = true;
+						draggedCardExists = true;
 
 						for (let list of allLists) {
 							let lwp = new ListWorkPoints(list),
@@ -153,27 +153,32 @@ class System {
 							if (GLOBAL.RefuseNewCards) {
 								lwp.toggleRefuseWhileDragging(draggedPoints);
 							} else {
-								lwp.toggleWouldBeFullWhileDragging(draggedPoints);
+								lwp.toggleWouldBeOverWhileDragging(draggedPoints);
 							}
 						}
 
 					} else {
-						cardBeingDragged = false;
+						draggedCardExists = false;
 						ListWorkPoints.updateLists(allLists);
 					}
 				}
 
 				if (typeof mutationRecords[0].removedNodes[0] == 'undefined') {
-					if (cardBeingDragged) {
-						// Card picked up
-						let lwp = new ListWorkPoints(listCards.closest('.list'));
-						lwp.toggleOriginalList(true);
-					} else {
+
+					if (!draggedCardExists) {
+
 						// Card just been dropped
 						for (let list of allLists) {
 							let lwp = new ListWorkPoints(list);
 							lwp.toggleOriginalList(false);
 						}
+
+					} else if (!$('[data-bmko-original-list]')) {
+
+						// Card picked up
+						let lwp = new ListWorkPoints(listCards.closest('.list'));
+						lwp.toggleOriginalList(true);
+
 					}
 				}
 
