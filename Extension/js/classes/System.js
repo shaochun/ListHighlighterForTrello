@@ -141,7 +141,11 @@ class System {
 
 				for (let record of mutationRecords) {
 
-					let draggedCard = document.body.querySelector('body > .list-card'); // .bmko_header-card-applied
+					let draggedCard = document.body.querySelector('body > .list-card');
+
+					if (draggedCard.classList.contains('bmko_header-card-applied')) {
+						console.log('fkoff');
+					}
 
 					if (draggedCard) {
 
@@ -161,6 +165,7 @@ class System {
 						draggedCardExists = false;
 						ListWorkPoints.updateLists(allLists);
 					}
+
 				}
 
 				if (typeof mutationRecords[0].removedNodes[0] == 'undefined') {
