@@ -178,13 +178,18 @@ class ListWorkPoints {
 		this.toggleRefuseStatus(toggleRefuse);
 	}
 
-	static toggleOriginalList(list) {
-		var lwp = new ListWorkPoints(list);
-		if (lwp.isOriginalList()) {
-			list.removeAttribute('data-bmko-original-list');
+	toggleOriginalList() {
+
+		var toggle = (typeof arguments[0] == 'boolean')
+			? arguments[0]
+			: this.isOriginalList();
+
+		if (toggle) {
+			this.list.dataset.bmkoOriginalList = 'yes';
 		} else {
-			list.dataset.bmkoOriginalList = 'yes';
+			this.list.removeAttribute('data-bmko-original-list');
 		}
+
 	}
 
 	isOriginalList() {
@@ -195,8 +200,6 @@ class ListWorkPoints {
 		}
 	}
 
-	// refuses new card
-	// TODO updates warning
 	toggleRefuseWhileDragging (draggedPoints) {
 
 		if (this.isOriginalList()) {
@@ -220,7 +223,6 @@ class ListWorkPoints {
 				this.toggleRefuseStatus(false);
 				this.list.classList.remove('bmko_refuse-new-cards');
 
-
 			}
 
 		}
@@ -235,16 +237,14 @@ class ListWorkPoints {
 
 		} else {
 
-			let limit = this.getLimitFromTitle(),
-				wouldBeOver = (
-					typeof limit != 'undefined'
-					&& (draggedPoints + this.getCardCount()) > limit
-				);
-			console.log(wouldBeOver + ': ' + getListTitle(this.list));
-			console.log(`(${draggedPoints} + ${this.getCardCount()}) > ${limit}`);
-			this.list.classList.toggle('bmko_list-would-be-full', wouldBeOver);
+			let limit = this.getLimitFromTitle();
+			this.list.classList.toggle(
+				'bmko_list-would-be-full',
+				(typeof limit != 'undefined' && (draggedPoints + this.getCardCount()) > limit)
+			);
 
 		}
+
 	}
 
 }

@@ -117,19 +117,8 @@ class System {
 				isAddedCard = (typeof newCard != 'undefined'
 					&& newCard instanceof HTMLElement
 					&& newCard.classList.contains('active-card')
-				);
-
-			if (GLOBAL.EnableWIP && listCards.parentNode) {
-
-				if (isAddedCard) {
-					ListWorkPoints.updateLists();
-				}
-
-				if (typeof mutationRecords[0].removedNodes[0] == 'undefined') {
-					// undefined removedNodes[0] means either a list has just been picked up, or just been dropped
-					ListWorkPoints.toggleOriginalList(listCards.closest('.list'));
-				}
-			}
+				),
+				allLists;
 
 			if (isAddedCard) {
 				Card.processCards(newCard);
@@ -142,13 +131,22 @@ class System {
 
 			if (GLOBAL.EnableWIP) {
 
-				let allLists = document.querySelectorAll('.list');
+				allLists = document.querySelectorAll('.list');
 
-				// QUESTION is this for loop necessary?
+				let cardBeingDragged = false;
+
+				if (listCards.parentNode && isAddedCard) {
+					ListWorkPoints.updateLists();
+				}
+
 				for (let record of mutationRecords) {
-					let draggedCard = document.body.querySelector('body > .list-card');
-					// .bmko_header-card-applied
+
+					let draggedCard = document.body.querySelector('body > .list-card'); // .bmko_header-card-applied
+
 					if (draggedCard) {
+
+						cardBeingDragged = true;
+
 						for (let list of allLists) {
 							let lwp = new ListWorkPoints(list),
 								draggedPoints = ListWorkPoints.getCardPoints(draggedCard);
@@ -158,8 +156,24 @@ class System {
 								lwp.toggleWouldBeFullWhileDragging(draggedPoints);
 							}
 						}
+
 					} else {
+						cardBeingDragged = false;
 						ListWorkPoints.updateLists(allLists);
+					}
+				}
+
+				if (typeof mutationRecords[0].removedNodes[0] == 'undefined') {
+					if (cardBeingDragged) {
+						// Card picked up
+						let lwp = new ListWorkPoints(listCards.closest('.list'));
+						lwp.toggleOriginalList(true);
+					} else {
+						// Card just been dropped
+						for (let list of allLists) {
+							let lwp = new ListWorkPoints(list);
+							lwp.toggleOriginalList(false);
+						}
 					}
 				}
 
