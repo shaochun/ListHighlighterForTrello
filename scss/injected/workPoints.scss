@@ -64,25 +64,31 @@
 .bmko_list-would-be-over:not([data-bmko-original-list]),
 .bmko_list-full:not([data-bmko-original-list]),
 .bmko_list-over:not([data-bmko-original-list]) {
-	.placeholder::before,
-	.placeholder::after {
-		position: absolute;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-	}
 
-	.placeholder::before {
-		border-radius: 3px;
-		@include warningBackground(rgb(247, 199, 92), .2);
-		@include displayBlock;
-	}
+	// .placeholder:not(.bmko_header-card-placeholder) {
+	.placeholder {
 
-	.placeholder::after {
-		display: flex;
-		justify-content: center;
-		align-items: center;
+		&::before,
+		&::after {
+			position: absolute;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+		}
+
+		&::before {
+			border-radius: 3px;
+			@include warningBackground(rgb(247, 199, 92), .2);
+			@include displayBlock;
+		}
+
+		&::after {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
 	}
 }
 

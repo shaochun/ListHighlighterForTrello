@@ -149,6 +149,8 @@ class ListWorkPoints {
 
 		if (GLOBAL.RefuseNewCards) {
 
+			// QUESTION do these things need to be put in the else - in case of live options update?
+
 			let listCards = this.list.querySelector('.list-cards'),
 				addCardButton = this.list.querySelector('.open-card-composer');
 
@@ -200,16 +202,16 @@ class ListWorkPoints {
 		}
 	}
 
-	toggleRefuseWhileDragging (draggedPoints) {
+	toggleRefuseWhileDragging (draggedCard) {
 
-		if (this.isOriginalList()) {
+		if (this.isOriginalList() || draggedCard.classList.contains('bmko_header-card-applied')) {
 
 			this.toggleRefuseStatus(false);
 			this.list.classList.remove('bmko_refuse-new-cards');
 
 		} else {
 
-			if ((draggedPoints + this.getCardCount()) > this.getLimitFromTitle()) {
+			if ((ListWorkPoints.getCardPoints(draggedCard) + this.getCardCount()) > this.getLimitFromTitle()) {
 
 				this.toggleRefuseStatus(true);
 				this.list.classList.add('bmko_refuse-new-cards');
@@ -229,9 +231,9 @@ class ListWorkPoints {
 
 	}
 
-	toggleWouldBeOverWhileDragging (draggedPoints) {
+	toggleWouldBeOverWhileDragging (draggedCard) {
 
-		if (this.isOriginalList()) {
+		if (this.isOriginalList() || draggedCard.classList.contains('bmko_header-card-applied')) {
 
 			this.list.classList.remove('bmko_list-would-be-over');
 
@@ -240,7 +242,7 @@ class ListWorkPoints {
 			let limit = this.getLimitFromTitle();
 			this.list.classList.toggle(
 				'bmko_list-would-be-over',
-				(typeof limit != 'undefined' && (draggedPoints + this.getCardCount()) > limit)
+				(typeof limit != 'undefined' && (ListWorkPoints.getCardPoints(draggedCard) + this.getCardCount()) > limit)
 			);
 
 		}

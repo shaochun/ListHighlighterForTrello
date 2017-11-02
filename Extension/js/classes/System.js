@@ -143,21 +143,17 @@ class System {
 
 					let draggedCard = document.body.querySelector('body > .list-card');
 
-					if (draggedCard.classList.contains('bmko_header-card-applied')) {
-						console.log('fkoff');
-					}
-
 					if (draggedCard) {
 
 						draggedCardExists = true;
 
 						for (let list of allLists) {
-							let lwp = new ListWorkPoints(list),
-								draggedPoints = ListWorkPoints.getCardPoints(draggedCard);
+							let lwp = new ListWorkPoints(list);
+
 							if (GLOBAL.RefuseNewCards) {
-								lwp.toggleRefuseWhileDragging(draggedPoints);
+								lwp.toggleRefuseWhileDragging(draggedCard);
 							} else {
-								lwp.toggleWouldBeOverWhileDragging(draggedPoints);
+								lwp.toggleWouldBeOverWhileDragging(draggedCard);
 							}
 						}
 
