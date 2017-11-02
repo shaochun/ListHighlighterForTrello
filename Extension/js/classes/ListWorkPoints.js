@@ -111,7 +111,7 @@ class ListWorkPoints {
 	updateCountAndLimit (cardCount, listLimit) {
 
 		var notice = this.list.querySelector('.bmko_list-limit-notice'),
-			className, over, span = document.createElement('span'), toggleRefuse;
+			className, over, span = document.createElement('span'), toggleButton;
 
 		if (!notice) {
 			notice = document.createElement('div');
@@ -126,16 +126,16 @@ class ListWorkPoints {
 		if (cardCount > listLimit) {
 			over = cardCount - listLimit;
 			className = 'bmko_list-over';
-			toggleRefuse = true;
+			toggleButton = true;
 		} else if (cardCount == listLimit) {
-			toggleRefuse = true;
+			toggleButton = true;
 			className = 'bmko_list-full';
 		} else if (cardCount < listLimit) {
 			className = 'bmko_list-under';
-			toggleRefuse = false;
+			toggleButton = false;
 		}
 
-		this.toggleRefuseStatus(toggleRefuse);
+		this.toggleAddCardButton(toggleButton);
 
 		if (typeof over == 'number') {
 			notice.textContent = `${over} over ・ ${notice.textContent}`;
@@ -145,39 +145,20 @@ class ListWorkPoints {
 		this.list.classList.add(className);
 	}
 
-	toggleRefuseStatus(toggle) {
-
+	toggleAddCardButton(toggle) {
 		if (GLOBAL.RefuseNewCards) {
-
-			// QUESTION do these things need to be put in the else - in case of live options update?
-
-			let listCards = this.list.querySelector('.list-cards'),
-				addCardButton = this.list.querySelector('.open-card-composer');
-
-			if (toggle) {
-				listCards.classList.remove('js-sortable', 'ui-sortable');
-				addCardButton.classList.add('hide');
-			} else {
-				listCards.classList.add('js-sortable', 'ui-sortable');
-				addCardButton.classList.remove('hide');
-			}
-
-		} else {
-
-			this.list.classList.toggle('bmko_list-would-be-full', toggle);
-
+			this.list.querySelector('.open-card-composer').classList.toggle('hide', toggle);
 		}
-
 	}
 
 	updateRefuseCardStatus (cardCount, listLimit) {
-		var toggleRefuse;
+		var toggle;
 		if (cardCount >= listLimit) {
-			toggleRefuse = true;
+			toggle = true;
 		} else if (cardCount < listLimit) {
-			toggleRefuse = false;
+			toggle = false;
 		}
-		this.toggleRefuseStatus(toggleRefuse);
+		this.toggleAddCardButton(toggle);
 	}
 
 	toggleOriginalList() {
@@ -206,14 +187,14 @@ class ListWorkPoints {
 
 		if (this.isOriginalList() || draggedCard.classList.contains('bmko_header-card-applied')) {
 
-			this.toggleRefuseStatus(false);
+			this.toggleAddCardButton(false);
 			this.list.classList.remove('bmko_refuse-new-cards');
 
 		} else {
 
 			if ((ListWorkPoints.getCardPoints(draggedCard) + this.getCardCount()) > this.getLimitFromTitle()) {
 
-				this.toggleRefuseStatus(true);
+				this.toggleAddCardButton(true);
 				this.list.classList.add('bmko_refuse-new-cards');
 				let placeholder = this.list.querySelector('.placeholder');
 				if (placeholder) {
@@ -222,7 +203,7 @@ class ListWorkPoints {
 
 			} else {
 
-				this.toggleRefuseStatus(false);
+				this.toggleAddCardButton(false);
 				this.list.classList.remove('bmko_refuse-new-cards');
 
 			}

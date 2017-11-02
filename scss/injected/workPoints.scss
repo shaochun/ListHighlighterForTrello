@@ -65,8 +65,7 @@
 .bmko_list-full:not([data-bmko-original-list]),
 .bmko_list-over:not([data-bmko-original-list]) {
 
-	// .placeholder:not(.bmko_header-card-placeholder) {
-	.placeholder {
+	.placeholder:not(.bmko_header-card-placeholder) {
 
 		&::before,
 		&::after {

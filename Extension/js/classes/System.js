@@ -133,19 +133,26 @@ class System {
 
 				allLists = document.querySelectorAll('.list');
 
-				let draggedCardExists = false;
+
 
 				if (listCards.parentNode && isAddedCard) {
 					ListWorkPoints.updateLists();
 				}
 
+				let draggedCard = document.body.querySelector('body > .list-card');
+
+				if (draggedCard && draggedCard.classList.contains('bmko_header-card-applied')) {
+					$('.placeholder').classList.add('bmko_header-card-placeholder');
+					for (let list of allLists) {
+						let lwp = new ListWorkPoints(list);
+						lwp.toggleAddCardButton(false);
+						list.classList.remove('bmko_refuse-new-cards');
+					}
+				}
+
 				for (let record of mutationRecords) {
 
-					let draggedCard = document.body.querySelector('body > .list-card');
-
 					if (draggedCard) {
-
-						draggedCardExists = true;
 
 						for (let list of allLists) {
 							let lwp = new ListWorkPoints(list);
@@ -158,7 +165,6 @@ class System {
 						}
 
 					} else {
-						draggedCardExists = false;
 						ListWorkPoints.updateLists(allLists);
 					}
 
@@ -166,7 +172,7 @@ class System {
 
 				if (typeof mutationRecords[0].removedNodes[0] == 'undefined') {
 
-					if (!draggedCardExists) {
+					if (!draggedCard) {
 
 						// Card just been dropped
 						for (let list of allLists) {
