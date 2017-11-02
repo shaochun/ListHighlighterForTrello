@@ -1,8 +1,11 @@
-@mixin warningBackground ($yellow, $opacity) {
-	$color:   rgba($yellow, $opacity);
-	$bgColor: rgba(0, 0, 0, $opacity);
-	background-color: $bgColor;
-	background-image: linear-gradient(to bottom right, $color 25%, transparent 25%, transparent 50%, $color 50%, $color 75%, transparent 75%, transparent);
+@mixin warningBackground ($color, $bgColor, $opacity) {
+	@if $color != transparent {
+		$color: rgba($color, $opacity);
+	}
+	@if $bgColor != transparent {
+		$bgColor: rgba($bgColor, $opacity);
+	}
+	background-image: linear-gradient(to bottom right, $color 25%, $bgColor 25%, $bgColor 50%, $color 50%, $color 75%, $bgColor 75%, $bgColor);
 	background-size: 2pc 2pc;
 }
 
@@ -36,7 +39,7 @@
 }
 
 .bmko_list-over::before {
-	@include warningBackground(rgb(240, 216, 0), .5);
+	@include warningBackground(red, rgb(156, 18, 18), 1);
 	@include displayBlock;
 
 	// bottom
@@ -44,7 +47,7 @@
 	// top: auto;
 	// height: 3px;
 	// border-radius: 0 0 3px 3px;
-	// background-size: 1pc 1pc;
+	// background-size: 20px 20px;
 
 	// top
 	background-repeat: repeat-x;
@@ -58,7 +61,7 @@
 	// right: auto;
 	// width: 3px;
 	// border-radius: 3px 0 0 3px;
-	// background-size: 1pc 1pc;
+	// background-size: 20px 20px;
 }
 
 .bmko_list-would-be-over:not([data-bmko-original-list]),
@@ -78,7 +81,7 @@
 
 		&::before {
 			border-radius: 3px;
-			@include warningBackground(rgb(247, 199, 92), .2);
+			@include warningBackground(rgb(247, 199, 92), black, .2);
 			@include displayBlock;
 		}
 
@@ -97,7 +100,8 @@
 		font-size: 30px;
 		border-radius: 3px;
 
-		@include warningBackground(rgb(168, 120, 13), .25);
+		// @include warningBackground(rgb(168, 120, 13), black, .25);
+		@include warningBackground(#222, #000, .25);
 		@include displayBlock;
 	}
 }
