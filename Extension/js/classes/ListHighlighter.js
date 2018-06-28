@@ -1,4 +1,4 @@
-'use script';
+'use strict';
 
 const HIGH   = 'high';
 const NORMAL = 'normal';
